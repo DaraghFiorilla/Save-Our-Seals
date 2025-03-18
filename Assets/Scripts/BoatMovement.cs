@@ -1,32 +1,41 @@
 using UnityEngine;
+using TMPro;
 
 public class BoatMovement : MonoBehaviour
 {
+    [Header("Movement Variables")]
     public float speed;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Vector2 movementDir;
+    public float boatFuel;
+    [SerializeField] private float fuelPerMove;
+
+    [Header("Referenced Objects")]
+    [SerializeField] private TextMeshProUGUI fuelText;
+
+    // PRIVATE VARIABLES
+    private Rigidbody2D rb;
+
+    void Awake()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (boatFuel > 0)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y + speed * Time.deltaTime);
+            movementDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            {
+                boatFuel -= fuelPerMove * Time.deltaTime;
+            }
         }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y - speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y);
-        }
+        else { }
+        fuelText.text = "Fuel: " + boatFuel.ToString("F1") + "%";
+    }
+
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = movementDir.normalized * speed;
     }
 }
