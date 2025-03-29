@@ -14,10 +14,13 @@ public class BoatMovement : MonoBehaviour
 
     // PRIVATE VARIABLES
     private Rigidbody2D rb;
+    private Transform myCamera;
+    private SpriteRenderer spriteRenderer;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -27,6 +30,7 @@ public class BoatMovement : MonoBehaviour
             movementDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
+                SwitchRotation();
                 boatFuel -= fuelPerMove * Time.deltaTime;
             }
         }
@@ -37,5 +41,29 @@ public class BoatMovement : MonoBehaviour
     private void FixedUpdate()
     {
         rb.linearVelocity = movementDir.normalized * speed;
+    }
+
+    void SwitchRotation()
+    {
+        if (movementDir.x > 0)
+        {
+            Debug.Log("D");
+            transform.rotation = Quaternion.identity;
+        }
+        else if (movementDir.x < 0)
+        {
+            Debug.Log("A");
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else if (movementDir.y > 0)
+        {
+            Debug.Log("W");
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        else if (movementDir.y < 0)
+        {
+            Debug.Log("S");
+            transform.rotation = Quaternion.Euler(0, 0, 270);
+        }
     }
 }
