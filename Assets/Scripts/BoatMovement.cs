@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class BoatMovement : MonoBehaviour
@@ -6,11 +7,13 @@ public class BoatMovement : MonoBehaviour
     [Header("Movement Variables")]
     public float speed;
     private Vector2 movementDir;
+    public float maxBoatFuel;
     public float boatFuel;
     [SerializeField] private float fuelPerMove;
 
     [Header("Referenced Objects")]
     [SerializeField] private TextMeshProUGUI fuelText;
+    [SerializeField] private Slider fuelSlider;
 
     // PRIVATE VARIABLES
     private Rigidbody2D rb;
@@ -19,6 +22,7 @@ public class BoatMovement : MonoBehaviour
 
     void Awake()
     {
+        boatFuel = maxBoatFuel;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -35,7 +39,8 @@ public class BoatMovement : MonoBehaviour
             }
         }
         else { }
-        fuelText.text = "Fuel: " + boatFuel.ToString("F1") + "%";
+        fuelText.text = boatFuel.ToString("F1") + "%";
+        fuelSlider.value = boatFuel;
     }
 
     private void FixedUpdate()
@@ -64,6 +69,15 @@ public class BoatMovement : MonoBehaviour
         {
             Debug.Log("S");
             transform.rotation = Quaternion.Euler(0, 0, 270);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Seal")
+        {
+            Debug.Log("Entered seal trigger");
+            collision.GetComponentInParent<Seal_SeaBehaviour>().BoatTriggered();
         }
     }
 }

@@ -1,16 +1,15 @@
 using UnityEngine;
+using TMPro;
 
 public class Sea_GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int sealsRemaining;
+    [SerializeField] private TextMeshProUGUI sealText;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateSealNo(bool isPos)
     {
-        
+        if (isPos) { sealsRemaining++; }
+        else { sealsRemaining--; }
+        sealText.text = "Seals remaining: " + sealsRemaining.ToString();
     }
 }
