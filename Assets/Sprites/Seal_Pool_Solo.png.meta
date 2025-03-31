@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Seal_Pool_Solo_0: 431669243688630818
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
