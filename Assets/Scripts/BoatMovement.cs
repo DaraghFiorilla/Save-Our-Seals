@@ -14,14 +14,17 @@ public class BoatMovement : MonoBehaviour
     [Header("Referenced Objects")]
     [SerializeField] private TextMeshProUGUI fuelText;
     [SerializeField] private Slider fuelSlider;
+    [SerializeField] private GameObject outOfFuelPopup;
 
     // PRIVATE VARIABLES
     private Rigidbody2D rb;
     private Transform myCamera;
     private SpriteRenderer spriteRenderer;
+    private Sea_GameManager gameManager;
 
     void Awake()
     {
+        gameManager = FindFirstObjectByType<Sea_GameManager>();
         boatFuel = maxBoatFuel;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -38,14 +41,16 @@ public class BoatMovement : MonoBehaviour
                 boatFuel -= fuelPerMove * Time.deltaTime;
             }
         }
-        else { }
+        else { if (!outOfFuelPopup.activeSelf) { outOfFuelPopup.SetActive(true); } }
         fuelText.text = boatFuel.ToString("F1") + "%";
         fuelSlider.value = boatFuel;
+
+        if (boatFuel < 0) { boatFuel = 0; }
     }
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = movementDir.normalized * speed;
+        if (boatFuel > 0) { rb.linearVelocity = movementDir.normalized * speed; }
     }
 
     void SwitchRotation()

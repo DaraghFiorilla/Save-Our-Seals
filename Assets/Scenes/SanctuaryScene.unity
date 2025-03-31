@@ -922,6 +922,7 @@ GameObject:
   - component: {fileID: 641859065}
   - component: {fileID: 641859064}
   - component: {fileID: 641859063}
+  - component: {fileID: 641859066}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -974,6 +975,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &641859066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641859062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc1d28a7b95fba4998e090a2c5854a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &891836339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,7 +1880,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657746449}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 641859066}
+        m_TargetAssemblyTypeName: ButtonEvents, Assembly-CSharp
+        m_MethodName: SwitchScene
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1657746449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2068,7 +2093,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 431669243688630818, guid: b2bd3fe6e2fc753448b423e629dfede4, type: 3}
+  m_Sprite: {fileID: 6686982036412406310, guid: 0e558bd97e9fc0646861a27ac27341de, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2300,7 +2325,7 @@ PrefabInstance:
     - target: {fileID: 7701916914799118201, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: fullSprite
       value: 
-      objectReference: {fileID: 21300000, guid: a94ee945ea954a74e8141560f7850366, type: 3}
+      objectReference: {fileID: 21300000, guid: 0d079d5d73615db40853a85cfaf63301, type: 3}
     - target: {fileID: 7701916914799118201, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: maxTimeBetweenAnim
       value: 15
