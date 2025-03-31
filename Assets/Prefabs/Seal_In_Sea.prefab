@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7116049498947461943}
   m_Layer: 0
   m_Name: Seal_In_Sea
-  m_TagString: Untagged
+  m_TagString: Seal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

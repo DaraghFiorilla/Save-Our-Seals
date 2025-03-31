@@ -10,7 +10,7 @@ public class Sanc_GameManager : MonoBehaviour
     private TimeManager timeManager;
     public Seal_SancBehaviour[] seals;
     public Seal_SancBehaviour selectedSeal;
-    private Vector3 mousePos;
+    //private Vector3 mousePos;
     GraphicRaycaster m_Raycaster;
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
@@ -27,7 +27,7 @@ public class Sanc_GameManager : MonoBehaviour
 
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonUp(0))
         {
             /*Collider2D targetObj = Physics2D.OverlapPoint(mousePos);
@@ -45,10 +45,11 @@ public class Sanc_GameManager : MonoBehaviour
 
             m_Raycaster.Raycast(m_PointerEventData, results);
 
+            if (results.Count <= 0) { ClearSelect(); }
 
             foreach (RaycastResult result in results)
             {
-                Debug.Log("Hit " + result.gameObject.name);
+                //Debug.Log("Hit " + result.gameObject.name);
                 if (result.gameObject.GetComponent<Seal_SancBehaviour>() != null)
                 {
                     selectedSeal = result.gameObject.GetComponent<Seal_SancBehaviour>();
@@ -60,6 +61,10 @@ public class Sanc_GameManager : MonoBehaviour
                     sealDisplayParent.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Hunger: " + selectedSeal.hunger + "%";
                     sealDisplayParent.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Enrichment: " + selectedSeal.enrichment + "%";
                 }
+                /*else
+                {
+                    ClearSelect();
+                }*/
             }
         }
     }

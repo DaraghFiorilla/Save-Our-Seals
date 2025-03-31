@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 3961843850973101131}
   m_Layer: 5
   m_Name: Seal_In_Sanc
-  m_TagString: Untagged
+  m_TagString: Seal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,8 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd554fc9feb47340ac766ee952caabe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimeBetweenAnim: 0
-  maxTimeBetweenAnim: 0
+  minTimeBetweenAnim: 4
+  maxTimeBetweenAnim: 8
   currentTimeBetweenAnim: 0
   timer: 0
   animationInactive: 0

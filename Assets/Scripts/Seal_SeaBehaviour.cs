@@ -70,6 +70,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     public void BoatTriggered()
     {
+        collided = true;
         gameManager.UpdateSealNo(false);
         Destroy(gameObject);
     }
