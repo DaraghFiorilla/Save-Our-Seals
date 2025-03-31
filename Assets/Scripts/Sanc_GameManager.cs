@@ -54,6 +54,7 @@ public class Sanc_GameManager : MonoBehaviour
                     selectedSeal = result.gameObject.GetComponent<Seal_SancBehaviour>();
                     ClearSelect();
                     selectedSeal.selected = true;
+                    sealDisplayParent.GetChild(0).gameObject.SetActive(true);
                     sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = selectedSeal.fullSprite;
                     sealDisplayParent.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Health: " + selectedSeal.health + "%";
                     sealDisplayParent.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Hunger: " + selectedSeal.hunger + "%";
@@ -67,6 +68,7 @@ public class Sanc_GameManager : MonoBehaviour
     {
         foreach (Seal_SancBehaviour seal in seals) { seal.selected = false; }
         sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = null;
+        sealDisplayParent.GetChild(0).gameObject.SetActive(false);
         sealDisplayParent.GetChild(1).GetComponent<TextMeshProUGUI>().text = null;
         sealDisplayParent.GetChild(2).GetComponent<TextMeshProUGUI>().text = null;
         sealDisplayParent.GetChild(3).GetComponent<TextMeshProUGUI>().text = null;
