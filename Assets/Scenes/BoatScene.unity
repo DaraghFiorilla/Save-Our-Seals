@@ -306197,7 +306197,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.11, y: 1}
+  m_Size: {x: 5.95, y: 2.12}
   m_EdgeRadius: 0
 --- !u!212 &1712910420
 SpriteRenderer:
@@ -306282,6 +306282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  rotationSpeed: 45
   maxBoatFuel: 100
   boatFuel: 100
   fuelPerMove: 3.3

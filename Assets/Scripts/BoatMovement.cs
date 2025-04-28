@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class BoatMovement : MonoBehaviour
 {
     [Header("Movement Variables")]
     public float speed;
-    private Vector2 movementDir;
+    public float rotationSpeed;
     public float maxBoatFuel;
     public float boatFuel;
     [SerializeField] private float fuelPerMove;
@@ -18,26 +19,19 @@ public class BoatMovement : MonoBehaviour
 
     // PRIVATE VARIABLES
     private Rigidbody2D rb;
-    private Transform myCamera;
-    private SpriteRenderer spriteRenderer;
-    private Sea_GameManager gameManager;
 
     void Awake()
     {
-        gameManager = FindFirstObjectByType<Sea_GameManager>();
         boatFuel = maxBoatFuel;
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
         if (boatFuel > 0)
         {
-            movementDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            if (Input.GetAxisRaw("Vertical") != 0)
             {
-                SwitchRotation();
                 boatFuel -= fuelPerMove * Time.deltaTime;
             }
         }
@@ -50,31 +44,23 @@ public class BoatMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (boatFuel > 0) { rb.linearVelocity = movementDir.normalized * speed; }
+        if (boatFuel > 0)
+        {
+            SetPlayerVelocity();
+            SetPlayerRotation();
+        }
     }
 
-    void SwitchRotation()
+    private void SetPlayerVelocity()
     {
-        if (movementDir.x > 0)
-        {
-            Debug.Log("D");
-            transform.rotation = Quaternion.identity;
-        }
-        else if (movementDir.x < 0)
-        {
-            Debug.Log("A");
-            transform.rotation = Quaternion.Euler(0, 0, 180);
-        }
-        else if (movementDir.y > 0)
-        {
-            Debug.Log("W");
-            transform.rotation = Quaternion.Euler(0, 0, 90);
-        }
-        else if (movementDir.y < 0)
-        {
-            Debug.Log("S");
-            transform.rotation = Quaternion.Euler(0, 0, 270);
-        }
+        float movementInput = Input.GetAxisRaw("Vertical");
+        transform.position += transform.right * movementInput * speed * Time.deltaTime;
+    }
+
+    private void SetPlayerRotation()
+    {
+        float rotationInput = Input.GetAxisRaw("Horizontal");
+        transform.Rotate(Vector3.forward, -rotationInput * rotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
