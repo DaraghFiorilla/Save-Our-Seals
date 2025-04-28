@@ -10,7 +10,8 @@ public class Seal_SeaBehaviour : MonoBehaviour
     public float speed;
     public bool moving;
     public float radiusSize;
-    public bool collided;
+    public bool collected;
+    public int myID;
 
     private Rigidbody2D rb;
     private Sea_GameManager gameManager;
@@ -19,6 +20,11 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        if (IsAlreadyCollected())
+        {
+            Destroy(gameObject);
+            return;
+        }
         rb = GetComponent<Rigidbody2D>();
         ResetMoveTime();
         moving = false;
@@ -30,7 +36,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (!collided)
+        if (!collected)
         {
             if (timer < currentTimeBetweenMoves && !moving) { timer += Time.deltaTime; }
             else if (!moving && timer >= currentTimeBetweenMoves) { StartCoroutine(MoveSeal()); }
@@ -70,8 +76,25 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     public void BoatTriggered()
     {
-        collided = true;
+        collected = true;
+        SaveAsCollected();
         gameManager.UpdateSealNo(false);
         Destroy(gameObject);
+    }
+
+    private void SaveAsCollected()
+    {
+        PlayerPrefs.SetInt(GetSealKey(), 1);
+        PlayerPrefs.Save();
+    }
+
+    private bool IsAlreadyCollected()
+    {
+        return PlayerPrefs.GetInt(GetSealKey(), 0) == 1;
+    }
+
+    private string GetSealKey()
+    {
+        return "SealCollected_" + myID;
     }
 }
