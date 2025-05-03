@@ -19,12 +19,12 @@ public class BoatMovement : MonoBehaviour
     private Sea_GameManager gameManager;
 
     // PRIVATE VARIABLES
-    private Rigidbody2D rb;
+    //private Rigidbody2D rb;
 
     void Awake()
     {
         boatFuel = maxBoatFuel;
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
         gameManager = FindFirstObjectByType<Sea_GameManager>();
     }
 

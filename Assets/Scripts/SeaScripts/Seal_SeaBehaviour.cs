@@ -15,6 +15,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private Rigidbody2D rb;
     private Sea_GameManager gameManager;
+    private Sea_MinigameManager minigameManager;
     [SerializeField] private Sprite[] sprites = new Sprite[2];
     private SpriteRenderer spriteRenderer;
 
@@ -28,7 +29,8 @@ public class Seal_SeaBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ResetMoveTime();
         moving = false;
-        gameManager = FindAnyObjectByType<Sea_GameManager>();
+        gameManager = FindFirstObjectByType<Sea_GameManager>();
+        minigameManager = FindFirstObjectByType<Sea_MinigameManager>();
         gameManager.UpdateSealNo(true);
         spriteRenderer= GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[0];
@@ -82,6 +84,12 @@ public class Seal_SeaBehaviour : MonoBehaviour
     }
 
     public void BoatTriggered()
+    {
+        // when multiple minigames are incorporated, add function to choose randomly
+        minigameManager.CallRopeMinigame(this);
+    }
+
+    public void MinigameCompleted()
     {
         collected = true;
         SaveAsCollected();
