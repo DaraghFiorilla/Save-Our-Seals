@@ -36,10 +36,13 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (!collected)
+        if (!gameManager.paused)
         {
-            if (timer < currentTimeBetweenMoves && !moving) { timer += Time.deltaTime; }
-            else if (!moving && timer >= currentTimeBetweenMoves) { StartCoroutine(MoveSeal()); }
+            if (!collected)
+            {
+                if (timer < currentTimeBetweenMoves && !moving) { timer += Time.deltaTime; }
+                else if (!moving && timer >= currentTimeBetweenMoves) { StartCoroutine(MoveSeal()); }
+            }
         }
     }
 
@@ -61,6 +64,10 @@ public class Seal_SeaBehaviour : MonoBehaviour
         
         while (moveTime > 0)
         {
+            while (gameManager.paused)
+            {
+                yield return null;
+            }
             moveTime -= Time.deltaTime;
             rb.MovePosition((Vector2)transform.position + speed * moveDir * Time.deltaTime);
             yield return null;

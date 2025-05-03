@@ -6,12 +6,12 @@ public class PlayerPrefsResetOnPlay
 {
     static PlayerPrefsResetOnPlay()
     {
-        EditorApplication.playModeStateChanged += ResetPlayerPrefsOnPlayMode;
+        EditorApplication.playModeStateChanged += ResetPlayerPrefsBeforePlayMode;
     }
 
-    private static void ResetPlayerPrefsOnPlayMode(PlayModeStateChange state)
+    private static void ResetPlayerPrefsBeforePlayMode(PlayModeStateChange state)
     {
-        if (state == PlayModeStateChange.EnteredPlayMode)
+        if (state == PlayModeStateChange.ExitingEditMode)
         {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();

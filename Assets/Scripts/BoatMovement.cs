@@ -16,6 +16,7 @@ public class BoatMovement : MonoBehaviour
     [SerializeField] private TextMeshProUGUI fuelText;
     [SerializeField] private Slider fuelSlider;
     [SerializeField] private GameObject outOfFuelPopup;
+    private Sea_GameManager gameManager;
 
     // PRIVATE VARIABLES
     private Rigidbody2D rb;
@@ -24,30 +25,37 @@ public class BoatMovement : MonoBehaviour
     {
         boatFuel = maxBoatFuel;
         rb = GetComponent<Rigidbody2D>();
+        gameManager = FindFirstObjectByType<Sea_GameManager>();
     }
 
     void Update()
     {
-        if (boatFuel > 0)
+        if (!gameManager.paused)
         {
-            if (Input.GetAxisRaw("Vertical") != 0)
+            if (boatFuel > 0)
             {
-                boatFuel -= fuelPerMove * Time.deltaTime;
+                if (Input.GetAxisRaw("Vertical") != 0)
+                {
+                    boatFuel -= fuelPerMove * Time.deltaTime;
+                }
             }
-        }
-        else { if (!outOfFuelPopup.activeSelf) { outOfFuelPopup.SetActive(true); } }
-        fuelText.text = boatFuel.ToString("F1") + "%";
-        fuelSlider.value = boatFuel;
+            else { if (!outOfFuelPopup.activeSelf) { outOfFuelPopup.SetActive(true); } }
+            fuelText.text = boatFuel.ToString("F1") + "%";
+            fuelSlider.value = boatFuel;
 
-        if (boatFuel < 0) { boatFuel = 0; }
+            if (boatFuel < 0) { boatFuel = 0; }
+        }
     }
 
     private void FixedUpdate()
     {
-        if (boatFuel > 0)
+        if (!gameManager.paused)
         {
-            SetPlayerVelocity();
-            SetPlayerRotation();
+            if (boatFuel > 0)
+            {
+                SetPlayerVelocity();
+                SetPlayerRotation();
+            }
         }
     }
 
@@ -69,6 +77,11 @@ public class BoatMovement : MonoBehaviour
         {
             Debug.Log("Entered seal trigger");
             collision.GetComponentInParent<Seal_SeaBehaviour>().BoatTriggered();
+        }
+        if (collision.tag == "Trash")
+        {
+            Debug.Log("Entered trash trigger");
+            collision.GetComponent<TrashScript>().BoatTriggered();
         }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Seal
   - Draggable
+  - Trash
   layers:
   - Default
   - TransparentFX
