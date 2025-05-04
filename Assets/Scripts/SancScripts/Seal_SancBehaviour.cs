@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Seal_SancBehaviour : MonoBehaviour
 {
@@ -16,15 +17,36 @@ public class Seal_SancBehaviour : MonoBehaviour
     public int hunger;
     public int myTickCounter;
     public bool selected;
+    public int age;
+    public string sealType;
+    public int myID;
 
     private Animator animator;
+    private Sanc_GameManager gameManager;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        //animator = GetComponent<Animator>();
+        gameManager = FindFirstObjectByType<Sanc_GameManager>();
         animationInactive = true;
         ResetAnimTimer();
+
+        if (!gameManager.seals.Contains(this))
+        {
+            SaveAsCollected();
+        }
+    }
+
+    public void SaveAsCollected()
+    {
+        string keyPrefix = "SealCollected_" + myID;
+        PlayerPrefs.SetInt(keyPrefix, 1);
+        PlayerPrefs.SetString(keyPrefix + "_Type", sealType);
+        PlayerPrefs.SetInt(keyPrefix + "_Age", age);
+        PlayerPrefs.SetInt(keyPrefix + "_Health", health);
+        PlayerPrefs.SetInt(keyPrefix + "_Hunger", hunger);
+        PlayerPrefs.SetInt(keyPrefix + "_Enrichment", enrichment);
+        PlayerPrefs.Save();
     }
 
     // Update is called once per frame
@@ -41,8 +63,6 @@ public class Seal_SancBehaviour : MonoBehaviour
         }
     }
 
-    
-
     private void ResetAnimTimer()
     {
         timer = 0;
@@ -52,16 +72,19 @@ public class Seal_SancBehaviour : MonoBehaviour
     public void AdjustHunger(int adjustAmount)
     {
         hunger += adjustAmount;
+        SaveAsCollected();
     }
 
     public void AdjustEnrichment(int adjustAmount)
     {
         enrichment += adjustAmount;
+        SaveAsCollected();
     }
 
     public void AdjustHealth(int adjustAmount)
     {
         health += adjustAmount;
+        SaveAsCollected();
     }
 
     public void Tick()

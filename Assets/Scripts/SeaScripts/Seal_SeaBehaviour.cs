@@ -11,7 +11,12 @@ public class Seal_SeaBehaviour : MonoBehaviour
     public bool moving;
     public float radiusSize;
     public bool collected;
+
+    [Header("Identification")]
+    [Tooltip("ID must be unique to avoid sanc seal ID conflicts. ID needs to be below 100 for this")]
     public int myID;
+    public int age;
+    public string sealType;
 
     private Rigidbody2D rb;
     private Sea_GameManager gameManager;
@@ -99,7 +104,9 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private void SaveAsCollected()
     {
-        PlayerPrefs.SetInt(GetSealKey(), 1);
+        PlayerPrefs.SetInt(GetSealKey(), 1); // collected flag
+        PlayerPrefs.SetString(GetSealKey("Type"), sealType);
+        PlayerPrefs.SetInt(GetSealKey("Age"), age);
         PlayerPrefs.Save();
     }
 
@@ -108,8 +115,8 @@ public class Seal_SeaBehaviour : MonoBehaviour
         return PlayerPrefs.GetInt(GetSealKey(), 0) == 1;
     }
 
-    private string GetSealKey()
+    private string GetSealKey(string suffix = "")
     {
-        return "SealCollected_" + myID;
+        return "SealCollected_" + myID + suffix;
     }
 }

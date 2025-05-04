@@ -1,43 +1,77 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Sanc_GameManager : MonoBehaviour
 {
-    private TimeManager timeManager;
-    public Seal_SancBehaviour[] seals;
-    public Seal_SancBehaviour selectedSeal;
-    //private Vector3 mousePos;
+    //private TimeManager timeManager;
+    public List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
+
     GraphicRaycaster m_Raycaster;
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
     [SerializeField] private Transform sealDisplayParent;
+    [SerializeField] private GameObject sealPrefab;
+    [SerializeField] private Vector2[] spawnLocations;
+    public Seal_SancBehaviour selectedSeal;
+    private Transform canvas;
 
     private void Awake()
     {
-        timeManager = GetComponent<TimeManager>();
+        //timeManager = GetComponent<TimeManager>();
+        canvas = GameObject.FindGameObjectWithTag("Canvas").transform;
         //Fetch the Raycaster from the GameObject (the Canvas)
         m_Raycaster = FindFirstObjectByType<GraphicRaycaster>();
         //Fetch the Event System from the Scene
         m_EventSystem = FindFirstObjectByType<EventSystem>();
+
+        LoadCollectedSeals();
+    }
+
+    void LoadCollectedSeals()
+    {
+        HashSet<int> existingIDs = new HashSet<int>();
+        foreach (Seal_SancBehaviour seal in seals)
+        {
+            existingIDs.Add(seal.myID);
+        }
+
+        const int maxSeaSeals = 100;
+        for (int id = 0; id < maxSeaSeals; id++)
+        {
+            if (PlayerPrefs.GetInt("SealCollected_" + id, 0) == 1 && !existingIDs.Contains(id))
+            {
+                string key = "SealCollected_" + id;
+
+                string sealType = PlayerPrefs.GetString(key + "_Type", "Grey");
+                int age = PlayerPrefs.GetInt("SealCollected_" + id + "_Age", 0);
+
+                // instantiate
+                GameObject newSealObj = Instantiate(sealPrefab, canvas);
+                Seal_SancBehaviour seal = newSealObj.GetComponent<Seal_SancBehaviour>();
+                RectTransform sealRect = newSealObj.GetComponent<RectTransform>();
+                sealRect.anchoredPosition = spawnLocations[id];
+                newSealObj.name = "Seal_In_Sanc_" + id;
+
+                // setvalues
+                seal.myID = id;
+                seal.sealType = sealType;
+                seal.age = age;
+
+                if (!seals.Contains(seal))
+                {
+                    seals.Add(seal);
+                }
+            }
+        }
     }
 
     private void Update()
     {
-        //mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonUp(0))
         {
-            /*Collider2D targetObj = Physics2D.OverlapPoint(mousePos);
-            if (targetObj != null)
-            {
-                selectedSeal = targetObj.gameObject.GetComponent<Seal_SancBehaviour>();
-                Debug.Log("raycast sent, received collider from" + targetObj);
-            }
-            else { Debug.Log("No collider found at position " + Input.mousePosition); }*/
-
             m_PointerEventData = new PointerEventData(m_EventSystem);
             m_PointerEventData.position = Input.mousePosition;
 
@@ -61,10 +95,6 @@ public class Sanc_GameManager : MonoBehaviour
                     sealDisplayParent.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Hunger: " + selectedSeal.hunger + "%";
                     sealDisplayParent.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Enrichment: " + selectedSeal.enrichment + "%";
                 }
-                /*else
-                {
-                    ClearSelect();
-                }*/
             }
         }
     }
