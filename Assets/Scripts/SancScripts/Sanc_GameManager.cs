@@ -86,14 +86,14 @@ public class Sanc_GameManager : MonoBehaviour
                 //Debug.Log("Hit " + result.gameObject.name);
                 if (result.gameObject.GetComponent<Seal_SancBehaviour>() != null)
                 {
-                    selectedSeal = result.gameObject.GetComponent<Seal_SancBehaviour>();
                     ClearSelect();
+                    selectedSeal = result.gameObject.GetComponent<Seal_SancBehaviour>();
                     selectedSeal.selected = true;
                     sealDisplayParent.GetChild(0).gameObject.SetActive(true);
                     sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = selectedSeal.fullSprite;
-                    sealDisplayParent.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Health: " + selectedSeal.health + "%";
-                    sealDisplayParent.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Hunger: " + selectedSeal.hunger + "%";
-                    sealDisplayParent.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Enrichment: " + selectedSeal.enrichment + "%";
+                    sealDisplayParent.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = "Health: " + selectedSeal.health + "%";
+                    sealDisplayParent.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = "Hunger: " + selectedSeal.hunger + "%";
+                    sealDisplayParent.GetChild(3).GetComponentInChildren<TextMeshProUGUI>().text = "Enrichment: " + selectedSeal.enrichment + "%";
                 }
             }
         }
@@ -104,8 +104,8 @@ public class Sanc_GameManager : MonoBehaviour
         foreach (Seal_SancBehaviour seal in seals) { seal.selected = false; }
         sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = null;
         sealDisplayParent.GetChild(0).gameObject.SetActive(false);
-        sealDisplayParent.GetChild(1).GetComponent<TextMeshProUGUI>().text = null;
-        sealDisplayParent.GetChild(2).GetComponent<TextMeshProUGUI>().text = null;
-        sealDisplayParent.GetChild(3).GetComponent<TextMeshProUGUI>().text = null;
+        sealDisplayParent.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = null;
+        sealDisplayParent.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = null;
+        sealDisplayParent.GetChild(3).GetComponentInChildren<TextMeshProUGUI>().text = null;
     }
 }

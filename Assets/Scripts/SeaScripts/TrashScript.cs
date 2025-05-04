@@ -5,7 +5,7 @@ public class TrashScript : MonoBehaviour
     public bool collected;
     public int myID;
 
-    private Rigidbody2D rb;
+    //private Rigidbody2D rb;
     private Sea_GameManager gameManager;
 
     private void Awake()
@@ -15,7 +15,7 @@ public class TrashScript : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
         gameManager = FindAnyObjectByType<Sea_GameManager>();
         gameManager.UpdateTrashNo(true);
     }
