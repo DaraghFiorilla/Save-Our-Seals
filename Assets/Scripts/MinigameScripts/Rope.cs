@@ -15,7 +15,7 @@ public class Rope : MonoBehaviour
     {
         col = GetComponent<BoxCollider2D>();
         image = GetComponent<Image>();
-        image.color = Color.white;
+        ChangeSprite(false);
     }
 
     public void Cut()
@@ -23,6 +23,18 @@ public class Rope : MonoBehaviour
         if (isCut) { return; }
         isCut = true;
         col.enabled = false;
-        image.color = Color.red;
+        ChangeSprite(true);
+    }
+
+    public void ChangeSprite(bool cut)
+    {
+        if (cut) { image.color = Color.red; }
+        else { image.color = Color.white; }
+    }
+
+    public void ResetRope()
+    {
+        ChangeSprite(false);
+        isCut = false;
     }
 }

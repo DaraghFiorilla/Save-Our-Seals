@@ -15,6 +15,7 @@ public class Knot : MonoBehaviour
 
     public void AssignSprite()
     {
+        if (myImage == null) { Debug.Log("Knot " + gameObject.name + " is unassigned :("); }
         switch (myKnotType)
         {
             case KnotType.Knot:

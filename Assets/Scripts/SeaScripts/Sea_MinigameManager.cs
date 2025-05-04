@@ -7,6 +7,13 @@ public class Sea_MinigameManager : MonoBehaviour
     [SerializeField] private GameObject ropeMinigamePrefab;
     private GameObject activeMinigameObj;
     private Seal_SeaBehaviour activeSeal;
+    private Canvas canvas;
+
+    private void Awake()
+    {
+        gameManager = GetComponent<Sea_GameManager>();
+        canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
+    }
 
     public void CallRopeMinigame(Seal_SeaBehaviour seal)
     {
@@ -15,7 +22,8 @@ public class Sea_MinigameManager : MonoBehaviour
             activeSeal = seal;
             minigameActive = true;
             gameManager.paused = true;
-            activeMinigameObj = Instantiate(ropeMinigamePrefab);
+            activeMinigameObj = Instantiate(ropeMinigamePrefab, canvas.transform);
+            activeMinigameObj.transform.SetAsLastSibling();
         }
     }
 

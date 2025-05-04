@@ -9,16 +9,24 @@ public class RopeMinigame : MonoBehaviour
     private List<int> knotsList = new List<int>();
     [SerializeField] private GameObject failureWindow;
     [SerializeField] private GameObject successWindow;
+    [SerializeField] private GameObject[] buttons;
     private HashSet<Rope> cutRopes = new HashSet<Rope>();
     private bool gameOver;
+    private Sea_MinigameManager manager;
 
     private void Awake()
     {
+        manager = FindFirstObjectByType<Sea_MinigameManager>();
         knots = FindObjectsByType<Knot>(FindObjectsSortMode.None);
+        foreach (GameObject button in buttons) { button.SetActive(true); }
         for (int i = 0; i < knots.Length; i++)
         {
             knotsList.Add(i);
         }
+    }
+
+    private void Start()
+    {
         AssignKnotTypes();
     }
 
@@ -47,22 +55,28 @@ public class RopeMinigame : MonoBehaviour
     {
         gameOver = true;
         failureWindow.SetActive(true);
-        Debug.Log("Fail with message: " + failMessage);
         failureWindow.GetComponentInChildren<TextMeshProUGUI>().text = failMessage;
+        foreach (GameObject button in buttons) { button.SetActive(false); }
     }
     void Succeed()
     {
-        Debug.Log("won");
         successWindow.SetActive(true);
+        foreach (GameObject button in buttons) { button.SetActive(false); }
     }
 
     public void Restart()
     {
-
+        cutRopes.Clear();
+        if (!failureWindow) { failureWindow.SetActive(false); }
+        if (!successWindow) { successWindow.SetActive(false); }
+        gameOver = false;
+        foreach (Rope rope in ropes) { rope.ResetRope(); }
+        foreach (GameObject button in buttons) { button.SetActive(true); }
     }
 
     public void Finish()
     {
+        manager.FinishRopeMinigame();
         Destroy(this.gameObject);
     }
 
@@ -78,12 +92,10 @@ public class RopeMinigame : MonoBehaviour
             touchedCounts[rope.knotB]++;
             if (rope.knotA.myKnotType == Knot.KnotType.KnotTight || rope.knotB.myKnotType == Knot.KnotType.KnotTight)
             {
-                Debug.Log("Hit rope = " + rope + ", and hit knots = " + rope.knotA.myKnotType + " & " + rope.knotB.myKnotType);
                 Fail("You cut a tight knot!");
                 return;
             }
         }
-        Debug.Log("passed first loop");
 
         foreach (var knot in knots)
         {
@@ -95,7 +107,6 @@ public class RopeMinigame : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("passed second loop");
 
         int expectedCuts = 0;
         foreach (var knot in knots)
@@ -105,16 +116,11 @@ public class RopeMinigame : MonoBehaviour
                 expectedCuts += touchedCounts.ContainsKey(knot) ? touchedCounts[knot] : 0;
             }
         }
-        Debug.Log("passed third loop");
         expectedCuts /= 2;
 
         if (cutRopes.Count >= expectedCuts)
         {
             Succeed();
-        }
-        else
-        {
-            Debug.Log("so close mate");
         }
     }
 
