@@ -6,26 +6,26 @@ using UnityEngine.UI;
 
 public class Sanc_GameManager : MonoBehaviour
 {
-    public List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
-
-    GraphicRaycaster m_Raycaster;
-    PointerEventData m_PointerEventData;
-    EventSystem m_EventSystem;
+    [Header("Object references")]
     public Transform sealDisplayParent;
     [SerializeField] private GameObject sealPrefab;
     [SerializeField] private Vector2[] spawnLocations;
     [SerializeField] private Slider hungerSlider, enrichmentSlider;
-    public Seal_SancBehaviour selectedSeal;
-    private Transform canvas;
+    [SerializeField] private GameObject enrichmentMGPrefab;
 
-    public int availableFish;
+    [Header("Seal references")]
+    public Seal_SancBehaviour selectedSeal;
+    public List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
+
+    private Transform canvas;
+    GraphicRaycaster m_Raycaster;
+    PointerEventData m_PointerEventData;
+    EventSystem m_EventSystem;
 
     private void Awake()
     {
         canvas = GameObject.FindGameObjectWithTag("Canvas").transform;
-        //Fetch the Raycaster from the GameObject (the Canvas)
         m_Raycaster = FindFirstObjectByType<GraphicRaycaster>();
-        //Fetch the Event System from the Scene
         m_EventSystem = FindFirstObjectByType<EventSystem>();
 
         LoadCollectedSeals();

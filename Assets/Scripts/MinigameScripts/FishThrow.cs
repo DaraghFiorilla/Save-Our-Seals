@@ -70,7 +70,6 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                     {
                         seal.AdjustHunger(5);
                         Destroy(gameObject);
-                        gameManager.availableFish--;
                         yield break;
                     }
                 }

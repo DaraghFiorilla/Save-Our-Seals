@@ -328,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1282,8 +1282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd17abb4ccf90140b2840bff260cb7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seals:
-  - {fileID: 1391335413}
   sealDisplayParent: {fileID: 66068926}
   sealPrefab: {fileID: 4450508756146509093, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
   spawnLocations:
@@ -1295,8 +1293,10 @@ MonoBehaviour:
   - {x: 311.84, y: 49}
   hungerSlider: {fileID: 1834930094}
   enrichmentSlider: {fileID: 710217962}
+  enrichmentMGPrefab: {fileID: 0}
   selectedSeal: {fileID: 0}
-  availableFish: 30
+  seals:
+  - {fileID: 1391335413}
 --- !u!4 &641859065
 Transform:
   m_ObjectHideFlags: 0
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.75473785, g: 0.2494215, b: 0.8962264, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2407,7 +2407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2482,7 +2482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9245283, g: 0.20060506, b: 0.20060506, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2979,7 +2979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.75473785, g: 0.2494215, b: 0.8962264, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3033,12 +3033,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1875246495}
+  m_Father: {fileID: 1660691798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 49.999, y: 397.87097}
-  m_SizeDelta: {x: 1920, y: 185.454}
+  m_AnchoredPosition: {x: 959.99896, y: -92.72699}
+  m_SizeDelta: {x: 1920, y: 185.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1572166310
 MonoBehaviour:
@@ -3054,7 +3054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.9254902}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3447,6 +3447,7 @@ RectTransform:
   - {fileID: 1875246495}
   - {fileID: 671169329}
   - {fileID: 2142827360946921798}
+  - {fileID: 1572166309}
   - {fileID: 5329211671047902788}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3509,7 +3510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.75473785, g: 0.2494215, b: 0.8962264, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3802,7 +3803,6 @@ RectTransform:
   m_Children:
   - {fileID: 1193422396}
   - {fileID: 1128309859}
-  - {fileID: 1572166309}
   - {fileID: 1657746447}
   - {fileID: 66068926}
   - {fileID: 226755212}
@@ -4428,6 +4428,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Seal_In_Sanc_0
       objectReference: {fileID: 0}
+    - target: {fileID: 5536412983596036873, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7701916914799118201, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: sealType
       value: Grey
@@ -4485,10 +4489,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnrichmentMG_BG
       objectReference: {fileID: 0}
-    - target: {fileID: 1431979091403399919, guid: c02030e72fbf1f8408730b6915d655ae, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7798362795204367727, guid: c02030e72fbf1f8408730b6915d655ae, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4515,11 +4515,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798362795204367727, guid: c02030e72fbf1f8408730b6915d655ae, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1200
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 7798362795204367727, guid: c02030e72fbf1f8408730b6915d655ae, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 900
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 7798362795204367727, guid: c02030e72fbf1f8408730b6915d655ae, type: 3}
       propertyPath: m_LocalPosition.x
