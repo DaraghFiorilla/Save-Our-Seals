@@ -61,7 +61,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private IEnumerator MoveSeal()
     {
-        Debug.Log("Starting move seal");
+        //Debug.Log("Starting move seal");
         spriteRenderer.sprite = sprites[1];
         timer = 0;
         moving = true;

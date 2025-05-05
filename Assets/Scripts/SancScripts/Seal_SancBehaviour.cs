@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Collections;
 
 public class Seal_SancBehaviour : MonoBehaviour
 {
@@ -10,7 +12,9 @@ public class Seal_SancBehaviour : MonoBehaviour
     public float timer;
     public bool animationInactive;
     public Sprite fullSprite;
-    
+    public GameObject selectionOutline;
+    public Slider feedCooldownSlider, enrichmentCooldownSlider;
+
     [Header("State Variables")]
     public int health;
     public int enrichment;
@@ -20,6 +24,8 @@ public class Seal_SancBehaviour : MonoBehaviour
     public int age;
     public string sealType;
     public int myID;
+    public float feedingCooldown, enrichCooldown;
+    public bool canFeed, canEnrich;
 
     private Animator animator;
     private Sanc_GameManager gameManager;
@@ -69,22 +75,60 @@ public class Seal_SancBehaviour : MonoBehaviour
         currentTimeBetweenAnim = Random.Range(minTimeBetweenAnim, maxTimeBetweenAnim);
     }
 
+    public void AdjustHealth(int adjustAmount)
+    {
+        health += adjustAmount;
+        if (selected)
+        {
+            gameManager.sealDisplayParent.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = "Health: " + health + "%";
+        }
+        SaveAsCollected();
+    }
+
     public void AdjustHunger(int adjustAmount)
     {
         hunger += adjustAmount;
+        if (selected)
+        {
+            gameManager.sealDisplayParent.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = "Hunger: " + hunger + "%";
+        }
+        StartCoroutine(FeedingCooldown(feedingCooldown));
         SaveAsCollected();
+    }
+
+    IEnumerator FeedingCooldown(float cooldownTime)
+    {
+        canFeed = false;
+        while (cooldownTime > 0)
+        {
+            cooldownTime -= Time.deltaTime;
+            if (feedCooldownSlider != null) { feedCooldownSlider.value = cooldownTime; }
+        }
+        canFeed = true;
+        yield return null;
     }
 
     public void AdjustEnrichment(int adjustAmount)
     {
         enrichment += adjustAmount;
+        if (selected)
+        {
+            gameManager.sealDisplayParent.GetChild(3).GetComponentInChildren<TextMeshProUGUI>().text = "Enrichment: " + enrichment + "%";
+        }
+        StartCoroutine(EnrichmentCooldown(enrichCooldown));
         SaveAsCollected();
     }
 
-    public void AdjustHealth(int adjustAmount)
+    IEnumerator EnrichmentCooldown(float cooldownTime)
     {
-        health += adjustAmount;
-        SaveAsCollected();
+        canEnrich = false;
+        while (cooldownTime > 0)
+        {
+            cooldownTime -= Time.deltaTime;
+            if (enrichmentCooldownSlider != null) { enrichmentCooldownSlider.value = cooldownTime; }
+        }
+        canEnrich = true;
+        yield return null;
     }
 
     public void Tick()

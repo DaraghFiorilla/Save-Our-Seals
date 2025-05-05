@@ -25,19 +25,12 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log(this + " OnBeginDrag");
         dragStartPos = rt.anchoredPosition;
         dragStartTime = Time.time;
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-
-    }
-
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log(this + "OnEndDrag");
         Vector2 releaseScreen = eventData.position;
         Vector2 releaseLocal;
         RectTransformUtility.ScreenPointToLocalPointInRectangle
@@ -73,9 +66,13 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                 var seal = r.gameObject.GetComponent<Seal_SancBehaviour>();
                 if (seal != null)
                 {
-                    seal.AdjustHunger(5);
-                    Destroy(gameObject);
-                    yield break;
+                    if (seal.canFeed)
+                    {
+                        seal.AdjustHunger(5);
+                        Destroy(gameObject);
+                        gameManager.availableFish--;
+                        yield break;
+                    }
                 }
             }
 

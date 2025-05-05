@@ -12,11 +12,13 @@ public class Sanc_GameManager : MonoBehaviour
     GraphicRaycaster m_Raycaster;
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
-    [SerializeField] private Transform sealDisplayParent;
+    public Transform sealDisplayParent;
     [SerializeField] private GameObject sealPrefab;
     [SerializeField] private Vector2[] spawnLocations;
     public Seal_SancBehaviour selectedSeal;
     private Transform canvas;
+
+    public int availableFish;
 
     private void Awake()
     {
@@ -79,8 +81,6 @@ public class Sanc_GameManager : MonoBehaviour
 
             m_Raycaster.Raycast(m_PointerEventData, results);
 
-            if (results.Count <= 0) { ClearSelect(); }
-
             foreach (RaycastResult result in results)
             {
                 //Debug.Log("Hit " + result.gameObject.name);
@@ -94,14 +94,19 @@ public class Sanc_GameManager : MonoBehaviour
                     sealDisplayParent.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = "Health: " + selectedSeal.health + "%";
                     sealDisplayParent.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = "Hunger: " + selectedSeal.hunger + "%";
                     sealDisplayParent.GetChild(3).GetComponentInChildren<TextMeshProUGUI>().text = "Enrichment: " + selectedSeal.enrichment + "%";
+                    selectedSeal.selectionOutline.SetActive(true);
                 }
             }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            ClearSelect();
         }
     }
 
     void ClearSelect()
     {
-        foreach (Seal_SancBehaviour seal in seals) { seal.selected = false; }
+        foreach (Seal_SancBehaviour seal in seals) { seal.selected = false; seal.selectionOutline.SetActive(false); }
         sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = null;
         sealDisplayParent.GetChild(0).gameObject.SetActive(false);
         sealDisplayParent.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = null;
