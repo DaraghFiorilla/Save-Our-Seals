@@ -12,6 +12,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     private Sanc_GameManager gameManager;
     private GraphicRaycaster raycaster;
     private EventSystem ev;
+    public float mass;
 
     public Vector2 gravity = new Vector2(0, -800f);
 
@@ -42,9 +43,8 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         );
 
         float dt = Mathf.Max(Time.time - dragStartTime, 0.0f);
-        Vector2 initivialVelocity = (releaseLocal - dragStartPos) / dt;
-
-        StartCoroutine(AnimateThrow(dragStartPos, initivialVelocity));
+        Vector2 initialVelocity = (releaseLocal - dragStartPos) / dt;
+        StartCoroutine(AnimateThrow(dragStartPos, initialVelocity));
     }
 
     IEnumerator AnimateThrow(Vector2 StartPos, Vector2 initialVel)
@@ -53,7 +53,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         while (true)
         {
             t += Time.deltaTime;
-            Vector2 pos = StartPos + initialVel * t + 0.5f * gravity * t * t;
+            Vector2 pos = StartPos + initialVel * t + mass * gravity * t * t;
             rt.anchoredPosition = pos;
 
             PointerEventData pd = new PointerEventData(ev);

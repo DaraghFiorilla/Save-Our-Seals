@@ -13,13 +13,13 @@ public class Seal_SancBehaviour : MonoBehaviour
     public bool animationInactive;
     public Sprite fullSprite;
     public GameObject selectionOutline;
-    public Slider feedCooldownSlider, enrichmentCooldownSlider;
+    private Slider feedCooldownSlider, enrichmentCooldownSlider;
 
     [Header("State Variables")]
     public int health;
     public int enrichment;
     public int hunger;
-    public int myTickCounter;
+    [HideInInspector] public int myTickCounter;
     public bool selected;
     public int age;
     public string sealType;
@@ -35,6 +35,8 @@ public class Seal_SancBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         gameManager = FindFirstObjectByType<Sanc_GameManager>();
         animationInactive = true;
+        feedCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/HungerSlider").GetComponent<Slider>();
+        enrichmentCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/EnrichmentSlider").GetComponent<Slider>();
         ResetAnimTimer();
 
         if (!gameManager.seals.Contains(this))
@@ -95,19 +97,6 @@ public class Seal_SancBehaviour : MonoBehaviour
         StartCoroutine(FeedingCooldown(feedingCooldown));
         SaveAsCollected();
     }
-
-    IEnumerator FeedingCooldown(float cooldownTime)
-    {
-        canFeed = false;
-        while (cooldownTime > 0)
-        {
-            cooldownTime -= Time.deltaTime;
-            if (feedCooldownSlider != null) { feedCooldownSlider.value = cooldownTime; }
-        }
-        canFeed = true;
-        yield return null;
-    }
-
     public void AdjustEnrichment(int adjustAmount)
     {
         enrichment += adjustAmount;
@@ -119,13 +108,37 @@ public class Seal_SancBehaviour : MonoBehaviour
         SaveAsCollected();
     }
 
-    IEnumerator EnrichmentCooldown(float cooldownTime)
+    IEnumerator FeedingCooldown(float cooldownTime)
     {
-        canEnrich = false;
+        Debug.Log("Feeding cooldown coroutine started with cooldown time: " + cooldownTime);
+        canFeed = false;
+        feedCooldownSlider.maxValue = cooldownTime;
+        feedCooldownSlider.value = feedCooldownSlider.maxValue;
         while (cooldownTime > 0)
         {
             cooldownTime -= Time.deltaTime;
-            if (enrichmentCooldownSlider != null) { enrichmentCooldownSlider.value = cooldownTime; }
+            if (selected) { feedCooldownSlider.value = cooldownTime; }
+            yield return null;
+        }
+        canFeed = true;
+        Debug.Log("Feeding cooldown coroutine finished");
+        yield return null;
+    }
+
+
+    IEnumerator EnrichmentCooldown(float cooldownTime)
+    {
+        canEnrich = false;
+        if (selected)
+        {
+            enrichmentCooldownSlider.maxValue = cooldownTime;
+            enrichmentCooldownSlider.value = enrichmentCooldownSlider.maxValue;
+        }
+        while (cooldownTime > 0)
+        {
+            cooldownTime -= Time.deltaTime;
+            if (selected) { enrichmentCooldownSlider.value = cooldownTime; }
+            yield return null;
         }
         canEnrich = true;
         yield return null;
