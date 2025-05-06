@@ -4,9 +4,12 @@ public class TrashScript : MonoBehaviour
 {
     public bool collected;
     public int myID;
+    [SerializeField] private Sprite[] trashSprites = new Sprite[2];
+    [SerializeField] private float animTime;
 
-    //private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
     private Sea_GameManager gameManager;
+    private float timer;
 
     private void Awake()
     {
@@ -16,8 +19,28 @@ public class TrashScript : MonoBehaviour
             return;
         }
         //rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         gameManager = FindAnyObjectByType<Sea_GameManager>();
         gameManager.UpdateTrashNo(true);
+    }
+
+    private void Update()
+    {
+        if (timer <= animTime)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            timer = 0;
+            SwitchSprite();
+        }
+    }
+
+    private void SwitchSprite()
+    {
+        if (spriteRenderer.sprite == trashSprites[0]) { spriteRenderer.sprite = trashSprites[1]; }
+        else { spriteRenderer.sprite = trashSprites[0]; }
     }
 
     public void BoatTriggered()

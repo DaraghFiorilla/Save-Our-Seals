@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SeaAnimationTile
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: -5763701769461504240, guid: ee9bcfa31ecc066498997948e5d623d2, type: 3}
-  - {fileID: 4781667245659438911, guid: 762f200143c8a664390b1ba14834a7ce, type: 3}
+  - {fileID: 21300000, guid: 21a9db0f6c2208444a2cded590dd8f23, type: 3}
+  - {fileID: 21300000, guid: 85ca7aa6aa90f7d44b851e9207ab2787, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0
