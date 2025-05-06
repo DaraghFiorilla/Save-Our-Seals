@@ -146,7 +146,7 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     public void Tick()
     {
-        Debug.Log("Tick");
+        //Debug.Log("Tick");
         myTickCounter++;
         if ((float)myTickCounter % 20 == 0)
         {
