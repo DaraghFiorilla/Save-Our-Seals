@@ -187,14 +187,29 @@ public class RopeMinigame : MonoBehaviour
         {
             if (!fullGraph.ContainsKey(frayedIndex)) { return false; }
 
-            int validNeighborCount = 0;
+            /*int validNeighborCount = 0;
             foreach (int neighbor in fullGraph[frayedIndex])
             {
                 if (!tightKnots.Contains(neighbor)) { validNeighborCount++; }
             }
 
             // if a frayed knot has less than 2 valid neighbours, it is completely unsolveable
-            if (validNeighborCount < 2) { return false; }
+            if (validNeighborCount < 2) { return false; }*/
+            int cuttableRopeCount = 0;
+            foreach (Rope rope in ropes)
+            {
+                int a = System.Array.IndexOf(knots, rope.knotA);
+                int b = System.Array.IndexOf(knots, rope.knotB);
+
+                if (a == frayedIndex || b == frayedIndex)
+                {
+                    if (!tightKnots.Contains(a) && !tightKnots.Contains(b))
+                    {
+                        cuttableRopeCount++;
+                    }
+                }
+            }
+            if (cuttableRopeCount <2 ) { return false; }
         }
 
         // Check if frayed knots are all reachable

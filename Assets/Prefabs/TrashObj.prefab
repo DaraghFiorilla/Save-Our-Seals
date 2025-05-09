@@ -150,9 +150,6 @@ MonoBehaviour:
   collected: 0
   myID: 0
   trashSprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  rippleSprites:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: a53dc7b67ee405847bcf2c750989ce9a, type: 3}
+  - {fileID: 21300000, guid: c54483e1316571640b5034610aa5de32, type: 3}
   animTime: 1

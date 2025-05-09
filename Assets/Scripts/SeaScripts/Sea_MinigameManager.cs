@@ -36,6 +36,7 @@ public class Sea_MinigameManager : MonoBehaviour
             gameManager.paused = false;
             activeSeal.MinigameCompleted();
             activeSeal = null;
+            minigameActive = false;
         }
     }
 }

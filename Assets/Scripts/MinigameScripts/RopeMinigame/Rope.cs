@@ -34,6 +34,7 @@ public class Rope : MonoBehaviour
 
     public void ResetRope()
     {
+        col.enabled = true;
         ChangeSprite(false);
         isCut = false;
     }

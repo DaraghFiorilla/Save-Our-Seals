@@ -126,4 +126,9 @@ public class Sanc_GameManager : MonoBehaviour
         hungerSlider.value = 0;
         enrichmentSlider.value = 0;
     }
+
+    public void SpawnEnrichPrefab()
+    {
+        Instantiate(enrichmentMGPrefab);
+    }
 }
