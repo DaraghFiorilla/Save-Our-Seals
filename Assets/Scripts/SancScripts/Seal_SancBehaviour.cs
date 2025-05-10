@@ -145,7 +145,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     public IEnumerator EnrichmentCoroutine(float enrichCooldownTime, float happyTime, int adjustAmount)
     {
         animationInactive = false;
-        Debug.Log("Enrich cooldown coroutine started with cooldown time: " + enrichCooldownTime + happyTime);
+        Debug.Log("Enrich cooldown coroutine started with cooldown time: " + (enrichCooldownTime + happyTime));
         animator.SetTrigger("eat");
         canFeed = false;
         canEnrich = false;
@@ -178,7 +178,6 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     public void Tick()
     {
-        //Debug.Log("Tick");
         myTickCounter++;
         if ((float)myTickCounter % 15 == 0)
         {

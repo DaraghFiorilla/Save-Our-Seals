@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -18,6 +19,8 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Vector2 startPos;
     public bool droppable;
     private Sanc_GameManager gameManager;
+    [SerializeField] private Sprite[] sprites;
+    private Image myImage;
 
     void Awake()
     {
@@ -27,6 +30,8 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         gameManager = FindFirstObjectByType<Sanc_GameManager>();
         startPos = transform.position;
         droppable = true;
+        myImage = GetComponent<Image>();
+        myImage.sprite = sprites[0];
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -62,7 +67,8 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         Camera cam = raycaster.eventCamera;
         RectTransform radiusRect = radiusImage.rectTransform;
         int hitCount = 0;
-        
+        List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
+
         foreach (Seal_SancBehaviour seal in gameManager.seals)
         {
             RectTransform sealRect = seal.GetComponent<RectTransform>();
@@ -71,19 +77,52 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             if (RectTransformUtility.RectangleContainsScreenPoint(radiusRect, sealScreenPos, cam))
             {
                 Debug.Log("Hit seal: " + seal.gameObject.name);
+                seals.Add(seal);
                 hitCount++;
             }
         }
-
+        radiusDisplay.SetActive(false);
         if (hitCount == 0)
         {
             transform.position = startPos;
+            return;
         }
         else
         {
             droppable = false;
+            foreach (Seal_SancBehaviour seal in seals)
+            {
+                StartCoroutine(seal.EnrichmentCoroutine(seal.enrichCooldown - 5, 5, 15));
+            }
         }
-        radiusDisplay.SetActive(false);
+        StartCoroutine(BreakIce(10));
     }
 
+    IEnumerator BreakIce(float timer)
+    {
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            switch (timer)
+            {
+                case > 7.5f:
+                    if (myImage.sprite != sprites[0]) { myImage.sprite = sprites[0]; }
+                    break;
+
+                case > 5f:
+                    if (myImage.sprite != sprites[1]) { myImage.sprite = sprites[1]; }
+                    break;
+
+                case > 2.5f:
+                    if (myImage.sprite != sprites[2]) { myImage.sprite = sprites[2]; }
+                    break;
+
+                default:
+                    if (myImage.sprite != sprites[3]) { myImage.sprite = sprites[3]; }
+                    break;
+            }
+            yield return null;
+        }
+        Destroy(gameObject.transform.parent.gameObject);
+    }
 }
