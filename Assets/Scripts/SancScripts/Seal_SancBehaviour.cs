@@ -111,6 +111,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     IEnumerator FeedingCooldown(float cooldownTime)
     {
         Debug.Log("Feeding cooldown coroutine started with cooldown time: " + cooldownTime);
+        canEnrich = false;
         canFeed = false;
         feedCooldownSlider.maxValue = cooldownTime;
         feedCooldownSlider.value = feedCooldownSlider.maxValue;
@@ -121,6 +122,7 @@ public class Seal_SancBehaviour : MonoBehaviour
             yield return null;
         }
         canFeed = true;
+        canEnrich = true;
         Debug.Log("Feeding cooldown coroutine finished");
         yield return null;
     }
@@ -128,6 +130,7 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     IEnumerator EnrichmentCooldown(float cooldownTime)
     {
+        canFeed = false;
         canEnrich = false;
         if (selected)
         {
@@ -141,6 +144,7 @@ public class Seal_SancBehaviour : MonoBehaviour
             yield return null;
         }
         canEnrich = true;
+        canFeed = true;
         yield return null;
     }
 
