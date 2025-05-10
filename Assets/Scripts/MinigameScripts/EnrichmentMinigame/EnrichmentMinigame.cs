@@ -3,11 +3,9 @@ using UnityEngine.UI;
 
 public class EnrichmentMinigame : MonoBehaviour
 {
-    //private Sanc_GameManager gameManager;
     [SerializeField] private GameObject iceCubePrefab;
     [SerializeField] private GameObject[] iceCubeObjs;
     [SerializeField] private GameObject[] freezeObjs;
-    //[SerializeField] private GameObject iceBlockPrefab;
     [SerializeField] private Vector2 blockSpawnPos;
     public GameObject tutorialArrow;
     private Freezer freezer;
@@ -16,26 +14,28 @@ public class EnrichmentMinigame : MonoBehaviour
     public int slotsFilled;
     [SerializeField] private GameObject successWindow;
     [SerializeField] private GameObject quitButton;
-    [SerializeField] private GameObject enrichToyPrefab;
-    private GameObject enrichToyObj;
     [SerializeField] private Vector2 spawnPos;
+    private Sanc_FeedAndEnrich feedEnrichManager;
 
     private void Awake()
     {
-        //gameManager = FindFirstObjectByType<Sanc_GameManager>();
         freezer = FindFirstObjectByType<Freezer>();
         gameObject.transform.SetAsLastSibling();
         targetRect = GameObject.Find("IceBox").GetComponent<RectTransform>();
+        feedEnrichManager = FindFirstObjectByType<Sanc_FeedAndEnrich>();
+    }
+
+    private void Start()
+    {
         // calculate rect transform corners
         targetRect.GetWorldCorners(corners);
-
         SetStartingPos();
     }
 
     private void SetStartingPos()
     {
         // Calculate boundaries
-        float widthAndHeight = iceCubePrefab.GetComponent<RectTransform>().rect.width;
+        float widthAndHeight = 256; // hardcoded because for some reason this code stopped working ->//iceCubePrefab.GetComponent<RectTransform>().rect.width;
         float minX = corners[0].x + widthAndHeight / 2;
         float maxX = corners[2].x - widthAndHeight / 2;
         float minY = corners[0].y + widthAndHeight / 2;
@@ -94,10 +94,7 @@ public class EnrichmentMinigame : MonoBehaviour
 
     public void EndMinigame()
     {
-        Transform parent = GameObject.FindGameObjectWithTag("Canvas").transform;
-        enrichToyObj = Instantiate(enrichToyPrefab, parent);
-        enrichToyObj.transform.localPosition = spawnPos;
-        enrichToyObj.transform.SetAsLastSibling();
+        feedEnrichManager.SpawnEnrich();
         Destroy(gameObject);
     }
 }

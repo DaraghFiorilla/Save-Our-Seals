@@ -27,7 +27,7 @@ public class Sanc_FeedAndEnrich : MonoBehaviour
         {
             enrichObjActive = true;
             if (enrichObj != null) { Destroy(enrichObj);}
-            enrichObj = Instantiate(enrichObj, canvas);
+            enrichObj = Instantiate(enrichPrefab, canvas);
             enrichObj.transform.localPosition = enrichSpawnPos;
         }
     }
