@@ -5,12 +5,12 @@ public class Seal_SeaBehaviour : MonoBehaviour
 {
     public float maxTimeBetweenMoves;
     public float minTimeBetweenMoves;
-    public float currentTimeBetweenMoves;
-    public float timer;
     public float speed;
     public bool moving;
-    public float radiusSize;
     public bool collected;
+    private float radiusSize;
+    private float currentTimeBetweenMoves;
+    private float timer;
 
     [Header("Identification")]
     [Tooltip("ID must be unique to avoid sanc seal ID conflicts. ID needs to be below 100 for this")]

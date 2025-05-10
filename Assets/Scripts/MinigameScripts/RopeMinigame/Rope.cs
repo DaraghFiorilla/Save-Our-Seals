@@ -8,12 +8,12 @@ public class Rope : MonoBehaviour
     public bool isCut;
     //[SerializeField] private Sprite[] sprites = new Sprite[2];
 
-    private BoxCollider2D col;
+    //private BoxCollider2D col;
     private Image image;
 
     private void Awake()
     {
-        col = GetComponent<BoxCollider2D>();
+        //col = GetComponent<BoxCollider2D>();
         image = GetComponent<Image>();
         ChangeSprite(false);
     }
@@ -22,7 +22,8 @@ public class Rope : MonoBehaviour
     {
         if (isCut) { return; }
         isCut = true;
-        col.enabled = false;
+        //col.enabled = false;
+        image.raycastTarget = false;
         ChangeSprite(true);
     }
 
@@ -34,7 +35,8 @@ public class Rope : MonoBehaviour
 
     public void ResetRope()
     {
-        col.enabled = true;
+        //col.enabled = true;
+        image.raycastTarget = true;
         ChangeSprite(false);
         isCut = false;
     }

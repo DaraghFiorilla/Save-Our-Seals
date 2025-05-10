@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class RopeMinigame : MonoBehaviour
 {
@@ -13,11 +15,13 @@ public class RopeMinigame : MonoBehaviour
     private HashSet<Rope> cutRopes = new HashSet<Rope>();
     private bool gameOver;
     private Sea_MinigameManager manager;
+    private GraphicRaycaster graphicRaycaster;
 
     private void Awake()
     {
         manager = FindFirstObjectByType<Sea_MinigameManager>();
         knots = FindObjectsByType<Knot>(FindObjectsSortMode.None);
+        graphicRaycaster = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GraphicRaycaster>();
         foreach (GameObject button in buttons) { button.SetActive(true); }
         for (int i = 0; i < knots.Length; i++)
         {
@@ -40,7 +44,7 @@ public class RopeMinigame : MonoBehaviour
 
     void ProcessCut()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
+        /*RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, -Vector2.up);
         if (hit.collider == null) { return; }
         Rope rope = hit.collider.GetComponent<Rope>();
         if (rope == null || cutRopes.Contains(rope)) { return; }
@@ -48,6 +52,29 @@ public class RopeMinigame : MonoBehaviour
         {
             hit.collider.GetComponent<Rope>().Cut();
             cutRopes.Add(rope);
+        }*/
+        Vector2 mousePos = Input.mousePosition;
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = mousePos
+        };
+
+        List<RaycastResult> raycastResults= new List<RaycastResult>();
+        graphicRaycaster.Raycast(pointerData, raycastResults);
+
+        foreach (var results in raycastResults)
+        {
+            Image hitImage = results.gameObject.GetComponent<Image>();
+            if (hitImage != null && hitImage.raycastTarget)
+            {
+                Rope rope = hitImage.GetComponent<Rope>();
+                if (rope != null && !cutRopes.Contains(rope))
+                {
+                    rope.Cut();
+                    cutRopes.Add(rope);
+                }
+                return;
+            }
         }
     }
 
@@ -72,6 +99,7 @@ public class RopeMinigame : MonoBehaviour
         gameOver = false;
         foreach (Rope rope in ropes) { rope.ResetRope(); }
         foreach (GameObject button in buttons) { button.SetActive(true); }
+        AssignKnotTypes();
     }
 
     public void Finish()

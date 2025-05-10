@@ -19,6 +19,7 @@ public class Sea_MinigameManager : MonoBehaviour
     {
         if (!minigameActive)
         {
+            Debug.Log("Calling rope minigame");
             activeSeal = seal;
             minigameActive = true;
             gameManager.paused = true;

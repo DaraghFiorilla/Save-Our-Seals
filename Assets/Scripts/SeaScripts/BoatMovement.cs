@@ -17,15 +17,15 @@ public class BoatMovement : MonoBehaviour
     [SerializeField] private Slider fuelSlider;
     [SerializeField] private GameObject outOfFuelPopup;
     private Sea_GameManager gameManager;
-
-    // PRIVATE VARIABLES
-    //private Rigidbody2D rb;
+    private ParticleSystem particleSys;
+    private Rigidbody2D rb;
 
     void Awake()
     {
         boatFuel = maxBoatFuel;
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         gameManager = FindFirstObjectByType<Sea_GameManager>();
+        particleSys = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -37,14 +37,28 @@ public class BoatMovement : MonoBehaviour
                 if (Input.GetAxisRaw("Vertical") != 0)
                 {
                     boatFuel -= fuelPerMove * Time.deltaTime;
+                    if (!particleSys.isEmitting)
+                    {
+                        Debug.Log("PLAYING PARTICLES");
+                        particleSys.Play();
+                    }
+                }
+                else
+                {
+                    if (particleSys.isEmitting)
+                    {
+                        Debug.Log("STOPPING PARTICLES");
+                        particleSys.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    }
                 }
             }
-            else { if (!outOfFuelPopup.activeSelf) { outOfFuelPopup.SetActive(true); } }
+            else { if (!outOfFuelPopup.activeSelf) { outOfFuelPopup.SetActive(true); gameManager.paused = true; } }
             fuelText.text = boatFuel.ToString("F1") + "%";
             fuelSlider.value = boatFuel;
 
             if (boatFuel < 0) { boatFuel = 0; }
         }
+        else { particleSys.Stop(); }
     }
 
     private void FixedUpdate()
@@ -57,18 +71,27 @@ public class BoatMovement : MonoBehaviour
                 SetPlayerRotation();
             }
         }
+        else
+        {
+            if (rb.linearVelocity != Vector2.zero) { rb.linearVelocity = Vector2.zero; }
+        }
     }
 
     private void SetPlayerVelocity()
     {
         float movementInput = Input.GetAxisRaw("Vertical");
-        transform.position += transform.right * movementInput * speed * Time.deltaTime;
+        //transform.position += transform.right * movementInput * speed * Time.deltaTime;
+        Vector2 movement = transform.right * movementInput * speed;
+        rb.linearVelocity = movement;
+        
     }
 
     private void SetPlayerRotation()
     {
         float rotationInput = Input.GetAxisRaw("Horizontal");
-        transform.Rotate(Vector3.forward, -rotationInput * rotationSpeed * Time.deltaTime);
+        float rotationAmount = -rotationInput * rotationSpeed * Time.fixedDeltaTime;
+        rb.MoveRotation(rb.rotation + rotationAmount);
+        //transform.Rotate(Vector3.forward, -rotationInput * rotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
