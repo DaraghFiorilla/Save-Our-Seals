@@ -1299,6 +1299,9 @@ MonoBehaviour:
   hungerSlider: {fileID: 1834930094}
   enrichmentSlider: {fileID: 710217962}
   enrichmentMGPrefab: {fileID: 1431979091403399919, guid: c02030e72fbf1f8408730b6915d655ae, type: 3}
+  healthDisplay: {fileID: 2023077689}
+  hungerDisplay: {fileID: 283120433}
+  enrichDisplay: {fileID: 1276072461}
   selectedSeal: {fileID: 0}
   seals:
   - {fileID: 1391335413}
@@ -5453,7 +5456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3585672056846128242, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3961843850973101131, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: m_Controller
@@ -5485,7 +5488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8420171863443310661, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8841739893377221000, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
       propertyPath: m_Size.x

@@ -82,7 +82,7 @@ public class Seal_SancBehaviour : MonoBehaviour
         health += adjustAmount;
         if (selected)
         {
-            gameManager.sealDisplayParent.GetChild(1).GetComponentInChildren<TextMeshProUGUI>().text = "Health: " + health + "%";
+            gameManager.healthDisplay.text = health + "%";
         }
         SaveAsCollected();
     }
@@ -92,9 +92,8 @@ public class Seal_SancBehaviour : MonoBehaviour
         hunger += adjustAmount;
         if (selected)
         {
-            gameManager.sealDisplayParent.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = "Hunger: " + hunger + "%";
+            gameManager.hungerDisplay.text = hunger + "%";
         }
-        StartCoroutine(FeedingCooldown(feedingCooldown));
         SaveAsCollected();
     }
     public void AdjustEnrichment(int adjustAmount)
@@ -102,49 +101,78 @@ public class Seal_SancBehaviour : MonoBehaviour
         enrichment += adjustAmount;
         if (selected)
         {
-            gameManager.sealDisplayParent.GetChild(3).GetComponentInChildren<TextMeshProUGUI>().text = "Enrichment: " + enrichment + "%";
+            gameManager.healthDisplay.text = enrichment + "%";
         }
-        StartCoroutine(EnrichmentCooldown(enrichCooldown));
         SaveAsCollected();
     }
 
-    IEnumerator FeedingCooldown(float cooldownTime)
+    public IEnumerator FeedingCoroutine(float eatCooldownTime, float happyTime, int adjustAmount)
     {
-        Debug.Log("Feeding cooldown coroutine started with cooldown time: " + cooldownTime);
+        animationInactive = false;
+        animator.SetTrigger("eat");
+        Debug.Log("Feeding cooldown coroutine started with cooldown time: " + eatCooldownTime + happyTime);
         canEnrich = false;
         canFeed = false;
-        feedCooldownSlider.maxValue = cooldownTime;
+        feedCooldownSlider.maxValue = eatCooldownTime + happyTime;
         feedCooldownSlider.value = feedCooldownSlider.maxValue;
-        while (cooldownTime > 0)
+        while (eatCooldownTime > 0)
         {
-            cooldownTime -= Time.deltaTime;
-            if (selected) { feedCooldownSlider.value = cooldownTime; }
+            eatCooldownTime -= Time.deltaTime;
+            if (selected) { feedCooldownSlider.value = eatCooldownTime + happyTime; }
+            yield return null;
+        }
+        animator.SetTrigger("finishedEat");
+        while (happyTime > 0)
+        {
+            happyTime -= Time.deltaTime;
+            if (selected) { feedCooldownSlider.value = happyTime; }
             yield return null;
         }
         canFeed = true;
         canEnrich = true;
+        hunger += adjustAmount;
+        if (selected)
+        {
+            gameManager.hungerDisplay.text = hunger + "%";
+        }
+        animationInactive = true;
+        SaveAsCollected();
         Debug.Log("Feeding cooldown coroutine finished");
         yield return null;
     }
 
 
-    IEnumerator EnrichmentCooldown(float cooldownTime)
+    public IEnumerator EnrichmentCoroutine(float enrichCooldownTime, float happyTime, int adjustAmount)
     {
+        animationInactive = false;
+        Debug.Log("Enrich cooldown coroutine started with cooldown time: " + enrichCooldownTime + happyTime);
+        animator.SetTrigger("eat");
         canFeed = false;
         canEnrich = false;
-        if (selected)
+        enrichmentCooldownSlider.maxValue = enrichCooldownTime + happyTime;
+        while (enrichCooldownTime > 0)
         {
-            enrichmentCooldownSlider.maxValue = cooldownTime;
-            enrichmentCooldownSlider.value = enrichmentCooldownSlider.maxValue;
+            enrichCooldownTime -= Time.deltaTime;
+            if (selected) { enrichmentCooldownSlider.value = enrichCooldownTime + happyTime; }
+            yield return null;
         }
-        while (cooldownTime > 0)
+        animator.SetTrigger("finishedEat");
+        while (happyTime > 0)
         {
-            cooldownTime -= Time.deltaTime;
-            if (selected) { enrichmentCooldownSlider.value = cooldownTime; }
+            happyTime -= Time.deltaTime;
+            if (selected) { enrichmentCooldownSlider.value = happyTime; }
             yield return null;
         }
         canEnrich = true;
         canFeed = true;
+        enrichment += adjustAmount;
+        if (selected)
+        {
+            gameManager.enrichDisplay.text = enrichment + "%";
+        }
+        animationInactive = true;
+        SaveAsCollected();
+        Debug.Log("Enrich cooldown coroutine finished");
         yield return null;
     }
 
@@ -152,6 +180,13 @@ public class Seal_SancBehaviour : MonoBehaviour
     {
         //Debug.Log("Tick");
         myTickCounter++;
+        if ((float)myTickCounter % 15 == 0)
+        {
+            if (hunger > 10 && enrichment > 10)
+            {
+                AdjustHealth(10);
+            }
+        }
         if ((float)myTickCounter % 20 == 0)
         {
             if (hunger > 0) { AdjustHunger(-1); }

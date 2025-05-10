@@ -12,6 +12,7 @@ public class Sanc_GameManager : MonoBehaviour
     [SerializeField] private Vector2[] spawnLocations;
     [SerializeField] private Slider hungerSlider, enrichmentSlider;
     [SerializeField] private GameObject enrichmentMGPrefab;
+    public TextMeshProUGUI healthDisplay, hungerDisplay, enrichDisplay;
 
     [Header("Seal references")]
     public Seal_SancBehaviour selectedSeal;
@@ -103,9 +104,9 @@ public class Sanc_GameManager : MonoBehaviour
                 sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = selectedSeal.fullSprite;
                 sealDisplayParent.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Age: " + selectedSeal.age.ToString();
                 sealDisplayParent.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Type: " + selectedSeal.sealType[0].ToString();
-                sealDisplayParent.Find("HealthBG/HealthInputText").GetComponent<TextMeshProUGUI>().text = selectedSeal.health.ToString() + "%";
-                sealDisplayParent.Find("HungerBG/HungerInputText").GetComponent<TextMeshProUGUI>().text = selectedSeal.hunger.ToString() + "%";
-                sealDisplayParent.Find("EnrichmentBG/EnrichmentInputText").GetComponent<TextMeshProUGUI>().text = selectedSeal.health.ToString() + "%";
+                healthDisplay.text = selectedSeal.health.ToString() + "%";
+                hungerDisplay.text = selectedSeal.hunger.ToString() + "%";
+                enrichDisplay.text = selectedSeal.enrichment.ToString() + "%";
                 selectedSeal.selectionOutline.SetActive(true);
             }
         }

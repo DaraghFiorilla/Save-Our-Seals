@@ -68,7 +68,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                 {
                     if (seal.canFeed)
                     {
-                        seal.AdjustHunger(5);
+                        seal.StartCoroutine(seal.FeedingCoroutine(seal.feedingCooldown - 5, 5, 10));
                         Destroy(gameObject);
                         yield break;
                     }
