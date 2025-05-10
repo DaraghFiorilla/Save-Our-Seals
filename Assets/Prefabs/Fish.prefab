@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2563939672743532958}
   - component: {fileID: 4547848777403112968}
   - component: {fileID: 1284112743577389617}
-  - component: {fileID: 6171018819614922468}
   - component: {fileID: 1057954773353787630}
   - component: {fileID: 9031920350605166284}
   m_Layer: 5
@@ -63,7 +62,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: 40, y: 90, z: 60, w: 80}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -78,18 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6171018819614922468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986048385895025905}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf10139c9717f384e9f80e45d313f405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1057954773353787630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4acfd696bce08e448a248bc2e0ef57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 3
+  mass: 0
   gravity: {x: 0, y: -800}
 --- !u!114 &9031920350605166284
 MonoBehaviour:

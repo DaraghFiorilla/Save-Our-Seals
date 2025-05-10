@@ -21,12 +21,14 @@ public class Sanc_GameManager : MonoBehaviour
     GraphicRaycaster m_Raycaster;
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
+    private Sanc_FeedAndEnrich feedEnrichManager;
 
     private void Awake()
     {
         canvas = GameObject.FindGameObjectWithTag("Canvas").transform;
         m_Raycaster = FindFirstObjectByType<GraphicRaycaster>();
         m_EventSystem = FindFirstObjectByType<EventSystem>();
+        feedEnrichManager = GetComponent<Sanc_FeedAndEnrich>();
 
         LoadCollectedSeals();
     }
@@ -129,6 +131,7 @@ public class Sanc_GameManager : MonoBehaviour
 
     public void SpawnEnrichPrefab()
     {
-        Instantiate(enrichmentMGPrefab);
+        if (!feedEnrichManager.enrichObjActive) { Instantiate(enrichmentMGPrefab, canvas); }
+        else { Debug.LogWarning("Enrich obj already active"); }
     }
 }

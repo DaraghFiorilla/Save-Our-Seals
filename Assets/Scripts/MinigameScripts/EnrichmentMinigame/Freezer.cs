@@ -8,6 +8,7 @@ public class Freezer : MonoBehaviour
     [SerializeField] private bool minigameActive;
     [SerializeField] private Slider tempSlider;
     [SerializeField] private TextMeshProUGUI sliderText;
+    private EnrichmentMinigame em;
     private bool isHeld;
 
     public float temp, minTemp, maxTemp;
@@ -18,13 +19,14 @@ public class Freezer : MonoBehaviour
 
     private void Awake()
     {
+        em = transform.parent.GetComponent<EnrichmentMinigame>();
         tempSlider.minValue = minTemp;
         tempSlider.maxValue = maxTemp;
     }
 
     public void StartFreezer()
     {
-        Debug.Log("minigame starting");
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
         minigameActive = true;
     }
 
@@ -34,7 +36,7 @@ public class Freezer : MonoBehaviour
         {
             if (isHeld) { CoolTemp(); }
             else { WarmTemp(); }
-            temp = Clamp(temp, minTemp, maxTemp);
+            temp = Mathf.Clamp(temp, minTemp, maxTemp);
             if (temp >= targetMin && temp <= targetMax)
             {
                 timeInTargetZone += Time.deltaTime;
@@ -44,20 +46,15 @@ public class Freezer : MonoBehaviour
             if (timeInTargetZone >= successHoldTime)
             {
                 minigameActive = false;
+                em.SpawnEndWindow();
             }
             tempSlider.value = temp;
-            sliderText.text = temp.ToString() + "°C";
+            sliderText.text = temp.ToString("F1") + "°C";
         }
-    }
-
-    private float Clamp(float temp, float minTemp, float maxTemp)
-    {
-        throw new NotImplementedException();
     }
 
     private void CoolTemp()
     {
-        Debug.Log("CoolTemp run");
         temp -= coolRate * Time.deltaTime;
     }
 

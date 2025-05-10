@@ -7,13 +7,18 @@ public class EnrichmentMinigame : MonoBehaviour
     [SerializeField] private GameObject iceCubePrefab;
     [SerializeField] private GameObject[] iceCubeObjs;
     [SerializeField] private GameObject[] freezeObjs;
-    [SerializeField] private GameObject iceBlockPrefab;
+    //[SerializeField] private GameObject iceBlockPrefab;
     [SerializeField] private Vector2 blockSpawnPos;
     public GameObject tutorialArrow;
     private Freezer freezer;
     [HideInInspector] public Vector3[] corners = new Vector3[4];
     private RectTransform targetRect;
     public int slotsFilled;
+    [SerializeField] private GameObject successWindow;
+    [SerializeField] private GameObject quitButton;
+    [SerializeField] private GameObject enrichToyPrefab;
+    private GameObject enrichToyObj;
+    [SerializeField] private Vector2 spawnPos;
 
     private void Awake()
     {
@@ -81,8 +86,18 @@ public class EnrichmentMinigame : MonoBehaviour
         tutorialArrow.SetActive(true);
     }
 
+    public void SpawnEndWindow()
+    {
+        successWindow.SetActive(true);
+        quitButton.SetActive(false);
+    }
+
     public void EndMinigame()
     {
-
+        Transform parent = GameObject.FindGameObjectWithTag("Canvas").transform;
+        enrichToyObj = Instantiate(enrichToyPrefab, parent);
+        enrichToyObj.transform.localPosition = spawnPos;
+        enrichToyObj.transform.SetAsLastSibling();
+        Destroy(gameObject);
     }
 }
