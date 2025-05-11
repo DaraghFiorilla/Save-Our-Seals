@@ -64,7 +64,7 @@ public class Sea_GameManager : MonoBehaviour
         int uncollected = 0;
         for (int i = 0; i < totalSeals; i++)
         {
-            if (PlayerPrefs.GetInt("SealCollected_" + i, 0) == 0)
+            if (PlayerPrefs.GetInt("SealCollected_" + i + "_") == 0)
             {
                 uncollected++;
             }
@@ -77,7 +77,7 @@ public class Sea_GameManager : MonoBehaviour
         int uncollected = 0;
         for (int i = 0; i < totalTrash; i++)
         {
-            if (PlayerPrefs.GetInt("TrashCollected_" + i, 0) == 0)
+            if (PlayerPrefs.GetInt("TrashCollected_" + i + "_") == 0)
                 uncollected++;
         }
         return uncollected;

@@ -90,7 +90,6 @@ public class Sanc_GameManager : MonoBehaviour
                 // setvalues
                 seal.myID = id;
                 seal.sealType = sealType;
-                seal.age = age;
 
                 if (!seals.Contains(seal))
                 {
@@ -131,7 +130,7 @@ public class Sanc_GameManager : MonoBehaviour
                 selectedSeal.selected = true;
                 sealDisplayParent.GetChild(0).gameObject.SetActive(true);
                 sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = selectedSeal.fullSprite;
-                sealDisplayParent.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Age: " + selectedSeal.age.ToString();
+                sealDisplayParent.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Name: " + selectedSeal.sealName;
                 sealDisplayParent.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Type: " + selectedSeal.sealType[0].ToString();
                 healthDisplay.text = selectedSeal.health.ToString() + "%";
                 hungerDisplay.text = selectedSeal.hunger.ToString() + "%";
@@ -147,12 +146,9 @@ public class Sanc_GameManager : MonoBehaviour
         releasedSeals++;
         releasedSealText.text = "Seals released: " + releasedSeals.ToString() + "/" + releasedSealsEndTarget.ToString();
         SaveRescueNo();
-        if (releasedSeals >= releasedSealsEndTarget)
+        if (PlayerPrefs.GetInt("GameComplete_") == 1)
         {
-            if (PlayerPrefs.GetInt("GameComplete_") == 1)
-            {
-                Instantiate(gameEndPrefab);
-            }
+            Instantiate(gameEndPrefab);
         }
     }
 

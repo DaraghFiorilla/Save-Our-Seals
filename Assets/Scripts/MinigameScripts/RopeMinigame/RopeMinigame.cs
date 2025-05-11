@@ -125,6 +125,15 @@ public class RopeMinigame : MonoBehaviour
             }
         }
 
+        foreach (var pair in touchedCounts)
+        {
+            if (pair.Value >= 3)
+            {
+                Fail("A knot is connected to too many cut ropes!");
+                return;
+            }
+        }
+
         foreach (var knot in knots)
         {
             if (knot.myKnotType == Knot.KnotType.KnotFrayed)
@@ -145,6 +154,8 @@ public class RopeMinigame : MonoBehaviour
             }
         }
         expectedCuts /= 2;
+        Debug.Log(expectedCuts);
+
 
         if (cutRopes.Count >= expectedCuts)
         {

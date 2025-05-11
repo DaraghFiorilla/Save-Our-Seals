@@ -21,11 +21,11 @@ public class Seal_SancBehaviour : MonoBehaviour
     public int hunger;
     [HideInInspector] public int myTickCounter;
     public bool selected;
-    public int age;
     public string sealType;
     public int myID;
     public float feedingCooldown, enrichCooldown;
     public bool canFeed, canEnrich;
+    public string sealName;
 
     private Animator animator;
     private Sanc_GameManager gameManager;
@@ -33,20 +33,28 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        //Debug.Log("My ID = " + myID);
         animator = GetComponent<Animator>();
         gameManager = FindFirstObjectByType<Sanc_GameManager>();
         animationInactive = true;
         feedCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/HungerSlider").GetComponent<Slider>();
         enrichmentCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/EnrichmentSlider").GetComponent<Slider>();
         ResetAnimTimer();
+    }
 
+    private void Start()
+    {
+        Debug.Log(gameObject.name + " MYID = " + myID);
         string key = "SealCollected_" + myID + "_";
         if (!PlayerPrefs.HasKey(key)) { SaveAsCollected(); }
+        Debug.Log(key + "Released_");
         if (PlayerPrefs.GetInt(key + "Released_") == 1)
-        {
+        { // SealCollected_0_Released_
+            Debug.Log("Loaded seal was marked as released");
             if (gameManager.seals.Contains(this)) { gameManager.seals.Remove(this); }
             gameObject.SetActive(false);
         }
+        else Debug.Log("Loaded seal wasn't marked as released");
     }
 
     public void SaveAsCollected()
@@ -54,7 +62,6 @@ public class Seal_SancBehaviour : MonoBehaviour
         string keyPrefix = "SealCollected_" + myID + "_";
         PlayerPrefs.SetInt(keyPrefix, 1);
         PlayerPrefs.SetString(keyPrefix + "Type_", sealType);
-        PlayerPrefs.SetInt(keyPrefix + "Age_", age);
         PlayerPrefs.SetInt(keyPrefix + "Health_", health);
         PlayerPrefs.SetInt(keyPrefix + "Hunger_", hunger);
         PlayerPrefs.SetInt(keyPrefix + "Enrichment_", enrichment);
@@ -209,7 +216,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     public void Tick()
     {
         myTickCounter++;
-        if ((float)myTickCounter % 5 == 0)
+        if ((float)myTickCounter % 1 == 0)
         {
             if (hunger > 30 && enrichment > 30)
             {

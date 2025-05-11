@@ -16,7 +16,7 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private EventSystem ev;
     [SerializeField] private GameObject radiusDisplay;
     private Image radiusImage;
-    private Vector2 startPos;
+    //private Vector2 startPos;
     public bool droppable;
     private Sanc_GameManager gameManager;
     [SerializeField] private Sprite[] sprites;
@@ -29,7 +29,7 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         ev = FindFirstObjectByType<EventSystem>();
         radiusImage = radiusDisplay.GetComponent<Image>();
         gameManager = FindFirstObjectByType<Sanc_GameManager>();
-        startPos = transform.position;
+        //startPos = transform.position;
         droppable = true;
         myImage = GetComponent<Image>();
         myImage.sprite = sprites[0];
@@ -37,66 +37,73 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        radiusDisplay.SetActive(true);
+        if (droppable)
+        {
+            radiusDisplay.SetActive(true);
+        }
     }
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
-        radiusDisplay.transform.position = Input.mousePosition;
+        if (droppable)
+        {
+            transform.position = Input.mousePosition;
+            radiusDisplay.transform.position = Input.mousePosition;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        /*List<RaycastResult> results = new List<RaycastResult>();
-        raycaster.Raycast(eventData, results);
-        bool isInsideSibling = RectTransformUtility.RectangleContainsScreenPoint(
-            radiusImage.rectTransform,
-            eventData.position,
-            raycaster.eventCamera);
-        int i = 0;
-        foreach (RaycastResult result in results)
+        if (droppable)
         {
-            if (result.gameObject.GetComponent<Seal_SancBehaviour>() && isInsideSibling)
+            /*List<RaycastResult> results = new List<RaycastResult>();
+            raycaster.Raycast(eventData, results);
+            bool isInsideSibling = RectTransformUtility.RectangleContainsScreenPoint(
+                radiusImage.rectTransform,
+                eventData.position,
+                raycaster.eventCamera);
+            int i = 0;
+            foreach (RaycastResult result in results)
             {
-                Debug.Log("hit seal " + result.gameObject.name);
-                i++;
+                if (result.gameObject.GetComponent<Seal_SancBehaviour>() && isInsideSibling)
+                {
+                    Debug.Log("hit seal " + result.gameObject.name);
+                    i++;
+                }
             }
-        }
-        if (i == 0) { transform.position = startPos; }
-        else { droppable = false; } // other behaviours here
-        radiusDisplay.SetActive(false);*/
-        Camera cam = raycaster.eventCamera;
-        RectTransform radiusRect = radiusImage.rectTransform;
-        int hitCount = 0;
-        List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
+            if (i == 0) { transform.position = startPos; }
+            else { droppable = false; } // other behaviours here
+            radiusDisplay.SetActive(false);*/
+            Camera cam = raycaster.eventCamera;
+            RectTransform radiusRect = radiusImage.rectTransform;
+            int hitCount = 0;
+            List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
 
-        foreach (Seal_SancBehaviour seal in gameManager.seals)
-        {
-            RectTransform sealRect = seal.GetComponent<RectTransform>();
+            foreach (Seal_SancBehaviour seal in gameManager.seals)
+            {
+                RectTransform sealRect = seal.GetComponent<RectTransform>();
 
-            Vector3 sealScreenPos = RectTransformUtility.WorldToScreenPoint(cam, sealRect.position);
-            if (RectTransformUtility.RectangleContainsScreenPoint(radiusRect, sealScreenPos, cam))
-            {
-                Debug.Log("Hit seal: " + seal.gameObject.name);
-                seals.Add(seal);
-                hitCount++;
+                Vector3 sealScreenPos = RectTransformUtility.WorldToScreenPoint(cam, sealRect.position);
+                if (RectTransformUtility.RectangleContainsScreenPoint(radiusRect, sealScreenPos, cam))
+                {
+                    if (seal.canEnrich) { seals.Add(seal); hitCount++; }
+                }
             }
-        }
-        radiusDisplay.SetActive(false);
-        if (hitCount == 0)
-        {
-            transform.position = startPos;
-            return;
-        }
-        else
-        {
-            droppable = false;
-            foreach (Seal_SancBehaviour seal in seals)
+            radiusDisplay.SetActive(false);
+            if (hitCount == 0)
             {
-                StartCoroutine(seal.EnrichmentCoroutine(seal.enrichCooldown - 5, 5, enrichAmount));
+                transform.localPosition = Vector2.zero;
+                return;
             }
+            else
+            {
+                droppable = false;
+                foreach (Seal_SancBehaviour seal in seals)
+                {
+                    StartCoroutine(seal.EnrichmentCoroutine(seal.enrichCooldown - 5, 5, enrichAmount));
+                }
+            }
+            StartCoroutine(BreakIce(16));
         }
-        StartCoroutine(BreakIce(16));
     }
 
     IEnumerator BreakIce(float timer)
