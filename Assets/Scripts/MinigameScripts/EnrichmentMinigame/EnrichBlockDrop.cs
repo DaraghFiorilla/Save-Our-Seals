@@ -95,7 +95,7 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 StartCoroutine(seal.EnrichmentCoroutine(seal.enrichCooldown - 5, 5, 15));
             }
         }
-        StartCoroutine(BreakIce(10));
+        StartCoroutine(BreakIce(15));
     }
 
     IEnumerator BreakIce(float timer)
@@ -105,20 +105,24 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             timer -= Time.deltaTime;
             switch (timer)
             {
-                case > 7.5f:
+                case > 12.5f:
                     if (myImage.sprite != sprites[0]) { myImage.sprite = sprites[0]; }
                     break;
 
-                case > 5f:
+                case > 10f:
                     if (myImage.sprite != sprites[1]) { myImage.sprite = sprites[1]; }
                     break;
 
-                case > 2.5f:
+                case > 7.5f:
                     if (myImage.sprite != sprites[2]) { myImage.sprite = sprites[2]; }
                     break;
 
-                default:
+                case > 5f:
                     if (myImage.sprite != sprites[3]) { myImage.sprite = sprites[3]; }
+                    break;
+
+                default:
+                    if (myImage.color.a != 0) { Color newColor = myImage.color; newColor.a = 0; myImage.color = newColor; }
                     break;
             }
             yield return null;

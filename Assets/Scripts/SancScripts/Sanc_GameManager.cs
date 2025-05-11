@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class Sanc_GameManager : MonoBehaviour
 {
@@ -218,6 +219,7 @@ public class Sanc_GameManager : MonoBehaviour
         {
             seal.SaveAsCollected();
         }
+        EditorApplication.ExitPlaymode();
         Application.Quit();
     }
 

@@ -73,6 +73,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                         Destroy(gameObject);
                         yield break;
                     }
+                    else { Debug.Log("Cant feed :("); }
                 }
             }
 
