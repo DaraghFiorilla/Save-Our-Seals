@@ -21,7 +21,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
     private Rigidbody2D rb;
     private Sea_GameManager gameManager;
     private Sea_MinigameManager minigameManager;
-    [SerializeField] private Sprite[] sprites = new Sprite[2];
+    public Sprite[] sprites = new Sprite[2];
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -105,9 +105,15 @@ public class Seal_SeaBehaviour : MonoBehaviour
     private void SaveAsCollected()
     {
         PlayerPrefs.SetInt(GetSealKey(), 1); // collected flag
-        PlayerPrefs.SetString(GetSealKey("Type"), sealType);
-        PlayerPrefs.SetInt(GetSealKey("Age"), age);
+        PlayerPrefs.SetString(GetSealKey("Type_"), sealType); // seal type string
+        PlayerPrefs.SetInt(GetSealKey("Age_"), age); // age int
         PlayerPrefs.Save();
+        //Debug.Log($"Saving as collected on obj {gameObject.name}");
+        //Debug.Log($"Set key {GetSealKey("Type")} to value {sealType}");
+        //Debug.Log($"Set key {GetSealKey("Age")} to value {age}");
+        //Debug.Log("Saving as collected on obj " + gameObject.name);
+        //Debug.Log("Set type string to " + GetSealKey("Type"));
+        //Debug.Log("Set age int to " + GetSealKey("Age"));
     }
 
     private bool IsAlreadyCollected()
@@ -117,6 +123,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
 
     private string GetSealKey(string suffix = "")
     {
-        return "SealCollected_" + myID + suffix;
+        //Debug.Log("Running GetSealKey() on " + gameObject.name + ": SealCollected_" + myID + "_" + suffix);
+        return "SealCollected_" + myID + "_" + suffix;
     }
 }

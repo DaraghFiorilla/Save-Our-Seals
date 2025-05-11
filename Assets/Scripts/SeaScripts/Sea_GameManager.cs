@@ -3,8 +3,8 @@ using TMPro;
 
 public class Sea_GameManager : MonoBehaviour
 {
-    public int totalSeals = 6;
-    public int totalTrash = 6;
+    public int totalSeals = 11;
+    public int totalTrash = 12;
     public int sealsRemaining;
     public int trashRemaining;
     public bool paused;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Sea_MinigameManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Sea_MinigameManager : MonoBehaviour
             minigameActive = true;
             gameManager.paused = true;
             activeMinigameObj = Instantiate(ropeMinigamePrefab, canvas.transform);
+            activeMinigameObj.transform.GetChild(0).GetComponent<Image>().sprite = seal.sprites[0];
             activeMinigameObj.transform.SetAsLastSibling();
         }
     }

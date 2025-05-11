@@ -517,7 +517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &220213010
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1249,7 +1249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &555966889
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1324,7 +1324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &598660446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1513,9 +1513,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sealDisplayParent: {fileID: 66068926}
-  greySealPrefab: {fileID: 0}
-  commonSealPrefab: {fileID: 0}
-  poolSpawnLocations: []
+  greySealPrefab: {fileID: 4450508756146509093, guid: 5d5f7a88d0c37244aa35a287fd5e2276, type: 3}
+  commonSealPrefab: {fileID: 4450508756146509093, guid: 000d1592b5cfb804481bd7e7843c7075, type: 3}
+  poolSpawnLocations:
+  - {x: -130, y: 104}
+  - {x: -379, y: -44}
+  - {x: 98, y: 158}
+  - {x: -87.5, y: -100}
+  - {x: 171, y: -62}
+  - {x: 388, y: 55}
   greyPool: {fileID: 1692722149}
   commonPool: {fileID: 2008525114}
   hungerSlider: {fileID: 1834930094}
@@ -2592,7 +2598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1165571850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2800,7 +2806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1207141529
 RectTransform:
   m_ObjectHideFlags: 0

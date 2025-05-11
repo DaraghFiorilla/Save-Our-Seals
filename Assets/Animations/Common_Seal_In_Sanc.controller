@@ -29,7 +29,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gray_Seal_Move
+  m_Name: Common_Seal_Move
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -42,7 +42,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3d0ab22224c5d8a44a07f5c379d837eb, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3531c07ec8e8e054cbcecd39e661880c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -55,7 +55,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gray_Seal_Eat
+  m_Name: Common_Seal_Eat
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -69,7 +69,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 61631869353bf574e80c97e6def1b494, type: 2}
+  m_Motion: {fileID: 7400000, guid: f9440f006af59064fae25f604833bb33, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -192,7 +192,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gray_Seal_Happy
+  m_Name: Common_Seal_Happy
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -206,7 +206,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4317e51760980bf4e92a4fd19f98d66e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 70f4e6b5b22c1564bb49141a60c46f4f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -218,7 +218,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Grey_Seal_In_Sanc
+  m_Name: Common_Seal_In_Sanc
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: playIdle
@@ -259,7 +259,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gray_Seal_Idle
+  m_Name: Common_Seal_Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -273,7 +273,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0c40c22a266e73247995abc96685d490, type: 2}
+  m_Motion: {fileID: 7400000, guid: befd5534ae7d3044299e14850fe7ff0c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

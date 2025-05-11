@@ -39,7 +39,6 @@ public class BoatMovement : MonoBehaviour
                     boatFuel -= fuelPerMove * Time.deltaTime;
                     if (!particleSys.isEmitting)
                     {
-                        Debug.Log("PLAYING PARTICLES");
                         particleSys.Play();
                     }
                 }
@@ -47,7 +46,6 @@ public class BoatMovement : MonoBehaviour
                 {
                     if (particleSys.isEmitting)
                     {
-                        Debug.Log("STOPPING PARTICLES");
                         particleSys.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     }
                 }

@@ -42,30 +42,37 @@ public class Sanc_GameManager : MonoBehaviour
 
     void LoadCollectedSeals()
     {
+        Debug.Log("Loading collected seals");
         HashSet<int> existingIDs = new HashSet<int>();
         foreach (Seal_SancBehaviour seal in seals)
         {
             existingIDs.Add(seal.myID);
         }
+        foreach (int id in existingIDs)
+        {
+            Debug.Log("Existing ID found: " + id);
+        }
 
         const int maxSeaSeals = 100;
         for (int id = 0; id < maxSeaSeals; id++)
         {
-            if (PlayerPrefs.GetInt("SealCollected_" + id, 0) == 1 && !existingIDs.Contains(id))
+            if (PlayerPrefs.GetInt("SealCollected_" + id + "_", 0) == 1 && !existingIDs.Contains(id))
             {
-                string key = "SealCollected_" + id;
+                Debug.Log("Found seal");
+                string key = "SealCollected_" + id + "_";
 
-                string sealType = PlayerPrefs.GetString(key + "_Type", "Grey");
-                int age = PlayerPrefs.GetInt("SealCollected_" + id + "_Age", 0);
+                string sealType = PlayerPrefs.GetString(key + "Type_", "Grey");
+                int age = PlayerPrefs.GetInt(key + "Age_", 0);
 
                 // instantiate
                 GameObject newSealObj;
-                if (sealType.Contains("Grey")) { newSealObj = Instantiate(greySealPrefab, greyPool.transform); }
-                else { newSealObj = Instantiate(commonSealPrefab, commonPool.transform); }
+                if (sealType.Equals("Grey")) { newSealObj = Instantiate(greySealPrefab, greyPool.transform); Debug.Log("instantiating grey: sealType contained grey"); }
+                else { newSealObj = Instantiate(commonSealPrefab, commonPool.transform); Debug.Log("instantiating common: sealType didn't contain grey"); }
                 Seal_SancBehaviour seal = newSealObj.GetComponent<Seal_SancBehaviour>();
                 RectTransform sealRect = newSealObj.GetComponent<RectTransform>();
                 if (seal.sealType == "Grey" || seal.sealType == "Gray") { sealRect.localPosition = poolSpawnLocations[id]; }
                 else if (seal.sealType == "Common") { sealRect.localPosition = poolSpawnLocations[id - noOfEachSealType]; }
+                else { Debug.Log("Invalid seal type"); }
                 newSealObj.name = seal.sealType + "_Seal_In_Sanc_" + id;
 
                 // setvalues
@@ -77,6 +84,7 @@ public class Sanc_GameManager : MonoBehaviour
                 {
                     seals.Add(seal);
                 }
+                seal.SaveAsCollected();
             }
         }
     }
@@ -90,6 +98,10 @@ public class Sanc_GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             ClearSelect();
+        }
+        if (Input.GetMouseButtonDown(2))
+        {
+            LogAllPlayerPrefs();
         }
     }
 
@@ -165,5 +177,28 @@ public class Sanc_GameManager : MonoBehaviour
             greyPool.transform.localPosition = poolPositions[1];
             commonPool.transform.localPosition = poolPositions[0];
         }
+    }
+
+    public void LogAllPlayerPrefs()
+    {
+        Debug.Log("----- PlayerPrefs Contents -----");
+        for (int id = 0; id < 100; id++)
+        {
+            string baseKey = "SealCollected_" + id + "_";
+            if (PlayerPrefs.HasKey(baseKey))
+            {
+                Debug.Log($"{baseKey} = {PlayerPrefs.GetInt(baseKey)}");
+
+                string typeKey = baseKey + "_Type";
+                string ageKey = baseKey + "_Age";
+
+                if (PlayerPrefs.HasKey(typeKey))
+                    Debug.Log($"{typeKey} = {PlayerPrefs.GetString(typeKey)}");
+
+                if (PlayerPrefs.HasKey(ageKey))
+                    Debug.Log($"{ageKey} = {PlayerPrefs.GetInt(ageKey)}");
+            }
+        }
+        Debug.Log("-----  End of PlayerPrefs -----");
     }
 }

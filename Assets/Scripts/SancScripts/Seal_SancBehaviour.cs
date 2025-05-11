@@ -9,8 +9,8 @@ public class Seal_SancBehaviour : MonoBehaviour
     public float minTimeBetweenAnim;
     public float maxTimeBetweenAnim;
     public float currentTimeBetweenAnim;
-    public float timer;
-    public bool animationInactive;
+    [HideInInspector] public float timer;
+    [HideInInspector] public bool animationInactive;
     public Sprite fullSprite;
     public GameObject selectionOutline;
     private Slider feedCooldownSlider, enrichmentCooldownSlider;
@@ -39,7 +39,12 @@ public class Seal_SancBehaviour : MonoBehaviour
         enrichmentCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/EnrichmentSlider").GetComponent<Slider>();
         ResetAnimTimer();
 
-        if (!gameManager.seals.Contains(this))
+        /*if (!gameManager.seals.Contains(this))
+        {
+            SaveAsCollected();
+        }*/
+        string key = "SealCollected_" + myID + "_";
+        if (!PlayerPrefs.HasKey(key))
         {
             SaveAsCollected();
         }
@@ -47,13 +52,13 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     public void SaveAsCollected()
     {
-        string keyPrefix = "SealCollected_" + myID;
+        string keyPrefix = "SealCollected_" + myID + "_";
         PlayerPrefs.SetInt(keyPrefix, 1);
-        PlayerPrefs.SetString(keyPrefix + "_Type", sealType);
-        PlayerPrefs.SetInt(keyPrefix + "_Age", age);
-        PlayerPrefs.SetInt(keyPrefix + "_Health", health);
-        PlayerPrefs.SetInt(keyPrefix + "_Hunger", hunger);
-        PlayerPrefs.SetInt(keyPrefix + "_Enrichment", enrichment);
+        PlayerPrefs.SetString(keyPrefix + "Type_", sealType);
+        PlayerPrefs.SetInt(keyPrefix + "Age_", age);
+        PlayerPrefs.SetInt(keyPrefix + "Health_", health);
+        PlayerPrefs.SetInt(keyPrefix + "Hunger_", hunger);
+        PlayerPrefs.SetInt(keyPrefix + "Enrichment_", enrichment);
         PlayerPrefs.Save();
     }
 

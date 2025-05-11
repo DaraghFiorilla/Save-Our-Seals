@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 7701916914799118201}
   - component: {fileID: 3961843850973101131}
   m_Layer: 5
-  m_Name: Seal_In_Sanc
+  m_Name: Grey_Seal_In_Sanc
   m_TagString: Seal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   myTickCounter: 0
   selected: 0
   age: 0
-  sealType: 
+  sealType: Grey
   myID: 0
   feedingCooldown: 10
   enrichCooldown: 15

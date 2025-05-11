@@ -65,6 +65,6 @@ public class TrashScript : MonoBehaviour
 
     private string GetTrashKey()
     {
-        return "TrashCollected_" + myID;
+        return "TrashCollected_" + myID + "_";
     }
 }
