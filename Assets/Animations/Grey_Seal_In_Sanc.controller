@@ -218,7 +218,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gray_Seal_In_Sanc
+  m_Name: Grey_Seal_In_Sanc
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: playIdle

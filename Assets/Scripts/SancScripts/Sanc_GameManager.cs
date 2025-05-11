@@ -8,15 +8,21 @@ public class Sanc_GameManager : MonoBehaviour
 {
     [Header("Object references")]
     public Transform sealDisplayParent;
-    [SerializeField] private GameObject sealPrefab;
-    [SerializeField] private Vector2[] spawnLocations;
+    [SerializeField] private GameObject greySealPrefab;
+    [SerializeField] private GameObject commonSealPrefab;
+    [SerializeField] private Vector2[] poolSpawnLocations;
+    //[SerializeField] private Vector2[] commonSealSpawnLocations;
+    [SerializeField] private GameObject greyPool, commonPool;
     [SerializeField] private Slider hungerSlider, enrichmentSlider;
     [SerializeField] private GameObject enrichmentMGPrefab;
     public TextMeshProUGUI healthDisplay, hungerDisplay, enrichDisplay;
+    [SerializeField] private Vector2[] poolPositions;
+    [SerializeField] private GameObject[] poolButtons;
 
     [Header("Seal references")]
     public Seal_SancBehaviour selectedSeal;
     public List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
+    public int noOfEachSealType = 6;
 
     private Transform canvas;
     GraphicRaycaster m_Raycaster;
@@ -53,11 +59,14 @@ public class Sanc_GameManager : MonoBehaviour
                 int age = PlayerPrefs.GetInt("SealCollected_" + id + "_Age", 0);
 
                 // instantiate
-                GameObject newSealObj = Instantiate(sealPrefab, canvas);
+                GameObject newSealObj;
+                if (sealType.Contains("Grey")) { newSealObj = Instantiate(greySealPrefab, greyPool.transform); }
+                else { newSealObj = Instantiate(commonSealPrefab, commonPool.transform); }
                 Seal_SancBehaviour seal = newSealObj.GetComponent<Seal_SancBehaviour>();
                 RectTransform sealRect = newSealObj.GetComponent<RectTransform>();
-                sealRect.anchoredPosition = spawnLocations[id];
-                newSealObj.name = "Seal_In_Sanc_" + id;
+                if (seal.sealType == "Grey" || seal.sealType == "Gray") { sealRect.localPosition = poolSpawnLocations[id]; }
+                else if (seal.sealType == "Common") { sealRect.localPosition = poolSpawnLocations[id - noOfEachSealType]; }
+                newSealObj.name = seal.sealType + "_Seal_In_Sanc_" + id;
 
                 // setvalues
                 seal.myID = id;
@@ -134,5 +143,27 @@ public class Sanc_GameManager : MonoBehaviour
     {
         if (!feedEnrichManager.enrichObjActive) { Instantiate(enrichmentMGPrefab, canvas); }
         else { Debug.LogWarning("Enrich obj already active"); }
+    }
+
+    public void SwitchPools(bool toGreyPool)
+    {
+        Debug.Log("run switchpools");
+        if (toGreyPool)
+        {
+            // set to grey pool button inactive
+            // set grey pool position to on screen
+            // set common pool position to off screen
+            poolButtons[0].SetActive(false);
+            poolButtons[1].SetActive(true);
+            greyPool.transform.localPosition = poolPositions[0];
+            commonPool.transform.localPosition = poolPositions[1];
+        }
+        else
+        {
+            poolButtons[0].SetActive(true);
+            poolButtons[1].SetActive(false);
+            greyPool.transform.localPosition = poolPositions[1];
+            commonPool.transform.localPosition = poolPositions[0];
+        }
     }
 }
