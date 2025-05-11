@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 0
+  feedAmount: 10
   gravity: {x: 0, y: -800}
 --- !u!114 &9031920350605166284
 MonoBehaviour:

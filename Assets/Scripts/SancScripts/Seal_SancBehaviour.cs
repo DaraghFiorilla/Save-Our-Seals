@@ -42,7 +42,7 @@ public class Seal_SancBehaviour : MonoBehaviour
 
         string key = "SealCollected_" + myID + "_";
         if (!PlayerPrefs.HasKey(key)) { SaveAsCollected(); }
-        if (PlayerPrefs.GetInt(key + "Released_", 0) == 1)
+        if (PlayerPrefs.GetInt(key + "Released_") == 1)
         {
             if (gameManager.seals.Contains(this)) { gameManager.seals.Remove(this); }
             gameObject.SetActive(false);
@@ -106,6 +106,7 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     public void AdjustHealth(int adjustAmount)
     {
+        if (gameManager.TrashComplete()) { adjustAmount += 10; }
         health += adjustAmount;
         if (selected)
         {
@@ -117,6 +118,7 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     public void AdjustHunger(int adjustAmount)
     {
+        if (gameManager.TrashComplete()) { adjustAmount += 10; }
         hunger += adjustAmount;
         if (selected)
         {
@@ -126,10 +128,11 @@ public class Seal_SancBehaviour : MonoBehaviour
     }
     public void AdjustEnrichment(int adjustAmount)
     {
+        if (gameManager.TrashComplete()) { adjustAmount += 10; }
         enrichment += adjustAmount;
         if (selected)
         {
-            gameManager.healthDisplay.text = enrichment + "%";
+            gameManager.enrichDisplay.text = enrichment + "%";
         }
         SaveAsCollected();
     }

@@ -13,6 +13,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     private GraphicRaycaster raycaster;
     private EventSystem ev;
     public float mass;
+    public int feedAmount;
 
     public Vector2 gravity = new Vector2(0, -800f);
 
@@ -68,7 +69,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
                 {
                     if (seal.canFeed)
                     {
-                        seal.StartCoroutine(seal.FeedingCoroutine(seal.feedingCooldown - 5, 5, 10));
+                        seal.StartCoroutine(seal.FeedingCoroutine(seal.feedingCooldown - 5, 5, feedAmount));
                         Destroy(gameObject);
                         yield break;
                     }

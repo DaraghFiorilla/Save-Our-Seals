@@ -41,9 +41,11 @@ public class Sea_GameManager : MonoBehaviour
         if (isPos) { trashRemaining++; }
         else { trashRemaining--; }
         UpdateTrashText();
-        if (trashRemaining <= 0 && sealsRemaining <= 0)
+        if (trashRemaining <= 0)
         {
-            popupObj.SetActive(true);
+            if (sealsRemaining <= 0) { popupObj.SetActive(true); }
+            PlayerPrefs.SetInt("TrashComplete_", 1);
+            PlayerPrefs.Save();
         }
     }
 

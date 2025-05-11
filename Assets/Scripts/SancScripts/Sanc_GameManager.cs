@@ -33,7 +33,6 @@ public class Sanc_GameManager : MonoBehaviour
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
     private Sanc_FeedAndEnrich feedEnrichManager;
-    private GameObject gameEndObj;
 
     private void Awake()
     {
@@ -110,10 +109,6 @@ public class Sanc_GameManager : MonoBehaviour
         {
             ClearSelect();
         }
-        /*if (Input.GetMouseButtonDown(2))
-        {
-            LogAllPlayerPrefs();
-        }*/
     }
 
     public void DisplaySeal()
@@ -160,7 +155,6 @@ public class Sanc_GameManager : MonoBehaviour
 
     public void EndGame() // button ref 
     {
-        Destroy(gameEndObj);
         PlayerPrefs.SetInt("GameComplete_", 1);
         PlayerPrefs.Save();
     }
@@ -224,28 +218,16 @@ public class Sanc_GameManager : MonoBehaviour
         {
             seal.SaveAsCollected();
         }
+        Application.Quit();
     }
 
-    /*public void LogAllPlayerPrefs()
+    public bool TrashComplete()
     {
-        Debug.Log("----- PlayerPrefs Contents -----");
-        for (int id = 0; id < 100; id++)
+        if (PlayerPrefs.GetInt("TrashComplete_") == 1)
         {
-            string baseKey = "SealCollected_" + id + "_";
-            if (PlayerPrefs.HasKey(baseKey))
-            {
-                Debug.Log($"{baseKey} = {PlayerPrefs.GetInt(baseKey)}");
-
-                string typeKey = baseKey + "_Type";
-                string ageKey = baseKey + "_Age";
-
-                if (PlayerPrefs.HasKey(typeKey))
-                    Debug.Log($"{typeKey} = {PlayerPrefs.GetString(typeKey)}");
-
-                if (PlayerPrefs.HasKey(ageKey))
-                    Debug.Log($"{ageKey} = {PlayerPrefs.GetInt(ageKey)}");
-            }
+            Debug.Log("TrashComplete_ == 1");
+            return true;
         }
-        Debug.Log("-----  End of PlayerPrefs -----");
-    }*/
+        else { Debug.Log("TrashComplete) != 1"); return false; }
+    }
 }
