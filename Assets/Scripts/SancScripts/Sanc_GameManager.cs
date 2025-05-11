@@ -18,17 +18,22 @@ public class Sanc_GameManager : MonoBehaviour
     public TextMeshProUGUI healthDisplay, hungerDisplay, enrichDisplay;
     [SerializeField] private Vector2[] poolPositions;
     [SerializeField] private GameObject[] poolButtons;
+    [SerializeField] private TextMeshProUGUI releasedSealText;
+    [SerializeField] private GameObject gameEndPrefab;
 
     [Header("Seal references")]
     public Seal_SancBehaviour selectedSeal;
     public List<Seal_SancBehaviour> seals = new List<Seal_SancBehaviour>();
     public int noOfEachSealType = 6;
+    public int releasedSeals;
+    public int releasedSealsEndTarget;
 
     private Transform canvas;
     GraphicRaycaster m_Raycaster;
     PointerEventData m_PointerEventData;
     EventSystem m_EventSystem;
     private Sanc_FeedAndEnrich feedEnrichManager;
+    private GameObject gameEndObj;
 
     private void Awake()
     {
@@ -36,8 +41,14 @@ public class Sanc_GameManager : MonoBehaviour
         m_Raycaster = FindFirstObjectByType<GraphicRaycaster>();
         m_EventSystem = FindFirstObjectByType<EventSystem>();
         feedEnrichManager = GetComponent<Sanc_FeedAndEnrich>();
-
         LoadCollectedSeals();
+        if (!PlayerPrefs.HasKey("ReleasedNo_")) { SaveRescueNo(); }
+        releasedSealText.text = "Seals released: " + releasedSeals.ToString() + " / " + releasedSealsEndTarget.ToString();
+        if (!PlayerPrefs.HasKey("GameComplete_"))
+        {
+            PlayerPrefs.SetInt("GameComplete_", 0);
+            PlayerPrefs.Save();
+        }
     }
 
     void LoadCollectedSeals()
@@ -99,10 +110,10 @@ public class Sanc_GameManager : MonoBehaviour
         {
             ClearSelect();
         }
-        if (Input.GetMouseButtonDown(2))
+        /*if (Input.GetMouseButtonDown(2))
         {
             LogAllPlayerPrefs();
-        }
+        }*/
     }
 
     public void DisplaySeal()
@@ -131,6 +142,33 @@ public class Sanc_GameManager : MonoBehaviour
                 selectedSeal.selectionOutline.SetActive(true);
             }
         }
+    }
+
+    public void UpdateRescueNo()
+    {
+        releasedSeals++;
+        releasedSealText.text = "Seals released: " + releasedSeals.ToString() + "/" + releasedSealsEndTarget.ToString();
+        SaveRescueNo();
+        if (releasedSeals >= releasedSealsEndTarget)
+        {
+            if (PlayerPrefs.GetInt("GameComplete_") == 1)
+            {
+                Instantiate(gameEndPrefab);
+            }
+        }
+    }
+
+    public void EndGame() // button ref 
+    {
+        Destroy(gameEndObj);
+        PlayerPrefs.SetInt("GameComplete_", 1);
+        PlayerPrefs.Save();
+    }
+
+    void SaveRescueNo()
+    {
+        PlayerPrefs.SetInt("Released_", releasedSeals);
+        PlayerPrefs.Save();
     }
 
     void ClearSelect()
@@ -179,7 +217,16 @@ public class Sanc_GameManager : MonoBehaviour
         }
     }
 
-    public void LogAllPlayerPrefs()
+    public void SaveAndExit() // button ref
+    {
+        SaveRescueNo();
+        foreach (Seal_SancBehaviour seal in seals)
+        {
+            seal.SaveAsCollected();
+        }
+    }
+
+    /*public void LogAllPlayerPrefs()
     {
         Debug.Log("----- PlayerPrefs Contents -----");
         for (int id = 0; id < 100; id++)
@@ -200,5 +247,5 @@ public class Sanc_GameManager : MonoBehaviour
             }
         }
         Debug.Log("-----  End of PlayerPrefs -----");
-    }
+    }*/
 }

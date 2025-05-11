@@ -29,6 +29,7 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     private Animator animator;
     private Sanc_GameManager gameManager;
+    [SerializeField] private GameObject releaseSealPrefab;
 
     private void Awake()
     {
@@ -39,14 +40,12 @@ public class Seal_SancBehaviour : MonoBehaviour
         enrichmentCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/EnrichmentSlider").GetComponent<Slider>();
         ResetAnimTimer();
 
-        /*if (!gameManager.seals.Contains(this))
-        {
-            SaveAsCollected();
-        }*/
         string key = "SealCollected_" + myID + "_";
-        if (!PlayerPrefs.HasKey(key))
+        if (!PlayerPrefs.HasKey(key)) { SaveAsCollected(); }
+        if (PlayerPrefs.GetInt(key + "Released_", 0) == 1)
         {
-            SaveAsCollected();
+            if (gameManager.seals.Contains(this)) { gameManager.seals.Remove(this); }
+            gameObject.SetActive(false);
         }
     }
 
@@ -59,6 +58,7 @@ public class Seal_SancBehaviour : MonoBehaviour
         PlayerPrefs.SetInt(keyPrefix + "Health_", health);
         PlayerPrefs.SetInt(keyPrefix + "Hunger_", hunger);
         PlayerPrefs.SetInt(keyPrefix + "Enrichment_", enrichment);
+        if (PlayerPrefs.GetInt(keyPrefix + "Released_") != 1) PlayerPrefs.SetInt(keyPrefix + "Released_", 0);
         PlayerPrefs.Save();
     }
 
@@ -76,6 +76,28 @@ public class Seal_SancBehaviour : MonoBehaviour
         }
     }
 
+    public void ReleaseSeal()
+    {
+        if (gameManager.seals.Contains(this)) { gameManager.seals.Remove(this); }
+        PlayerPrefs.SetInt("SealCollected_" + myID + "_Released_", 1);
+        PlayerPrefs.Save();
+        gameManager.UpdateRescueNo();
+        gameObject.SetActive(false);
+    }
+
+    public void CheckHealth()
+    {
+        if (health >= 99)
+        {
+            GameObject obj = Instantiate(releaseSealPrefab, GameObject.FindGameObjectWithTag("Canvas").gameObject.transform);
+            obj.transform.SetAsLastSibling();
+            ReleaseSeal releaseSeal = obj.GetComponent<ReleaseSeal>();
+            releaseSeal.releasedSeal = this;
+            if (sealType == "Grey") { releaseSeal.imageObjs[0].SetActive(true); releaseSeal.imageObjs[1].SetActive(false); }
+            else { releaseSeal.imageObjs[0].SetActive(false); releaseSeal.imageObjs[1].SetActive(true); }
+        }
+    }
+
     private void ResetAnimTimer()
     {
         timer = 0;
@@ -90,6 +112,7 @@ public class Seal_SancBehaviour : MonoBehaviour
             gameManager.healthDisplay.text = health + "%";
         }
         SaveAsCollected();
+        CheckHealth();
     }
 
     public void AdjustHunger(int adjustAmount)
@@ -186,9 +209,11 @@ public class Seal_SancBehaviour : MonoBehaviour
         myTickCounter++;
         if ((float)myTickCounter % 15 == 0)
         {
-            if (hunger > 10 && enrichment > 10)
+            if (hunger > 30 && enrichment > 30)
             {
-                AdjustHealth(10);
+                if ((hunger + enrichment) / 2 > 60) { AdjustHealth(15); }
+                else if (hunger + enrichment / 2 > 80) { AdjustHealth(25); }
+                else { AdjustHealth(10); }
             }
         }
         if ((float)myTickCounter % 20 == 0)

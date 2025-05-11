@@ -210,6 +210,7 @@ MonoBehaviour:
   enrichCooldown: 15
   canFeed: 1
   canEnrich: 1
+  releaseSealPrefab: {fileID: 757990338799496494, guid: a619b93122c04324fa820b9249718e20, type: 3}
 --- !u!95 &3961843850973101131
 Animator:
   serializedVersion: 7
