@@ -8,5 +8,6 @@ public class ReleaseSeal : MonoBehaviour
     public void StartRelease()
     {
         releasedSeal.ReleaseSeal();
+        Destroy(gameObject);
     }
 }

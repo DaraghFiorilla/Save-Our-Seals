@@ -21,6 +21,7 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Sanc_GameManager gameManager;
     [SerializeField] private Sprite[] sprites;
     private Image myImage;
+    public int enrichAmount;
 
     void Awake()
     {
@@ -92,10 +93,10 @@ public class EnrichBlockDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             droppable = false;
             foreach (Seal_SancBehaviour seal in seals)
             {
-                StartCoroutine(seal.EnrichmentCoroutine(seal.enrichCooldown - 5, 5, 15));
+                StartCoroutine(seal.EnrichmentCoroutine(seal.enrichCooldown - 5, 5, enrichAmount));
             }
         }
-        StartCoroutine(BreakIce(15));
+        StartCoroutine(BreakIce(16));
     }
 
     IEnumerator BreakIce(float timer)

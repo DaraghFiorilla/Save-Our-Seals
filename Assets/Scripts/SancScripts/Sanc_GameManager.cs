@@ -42,7 +42,8 @@ public class Sanc_GameManager : MonoBehaviour
         m_EventSystem = FindFirstObjectByType<EventSystem>();
         feedEnrichManager = GetComponent<Sanc_FeedAndEnrich>();
         LoadCollectedSeals();
-        if (!PlayerPrefs.HasKey("ReleasedNo_")) { SaveRescueNo(); }
+        if (!PlayerPrefs.HasKey("Released_")) { SaveRescueNo(); }
+        else { releasedSeals = PlayerPrefs.GetInt("Released_"); }
         releasedSealText.text = "Seals released: " + releasedSeals.ToString() + " / " + releasedSealsEndTarget.ToString();
         if (!PlayerPrefs.HasKey("GameComplete_"))
         {
@@ -53,23 +54,23 @@ public class Sanc_GameManager : MonoBehaviour
 
     void LoadCollectedSeals()
     {
-        Debug.Log("Loading collected seals");
+        //Debug.Log("Loading collected seals");
         HashSet<int> existingIDs = new HashSet<int>();
         foreach (Seal_SancBehaviour seal in seals)
         {
             existingIDs.Add(seal.myID);
         }
-        foreach (int id in existingIDs)
+        /*foreach (int id in existingIDs)
         {
             Debug.Log("Existing ID found: " + id);
-        }
+        }*/
 
         const int maxSeaSeals = 100;
         for (int id = 0; id < maxSeaSeals; id++)
         {
             if (PlayerPrefs.GetInt("SealCollected_" + id + "_", 0) == 1 && !existingIDs.Contains(id))
             {
-                Debug.Log("Found seal");
+                //Debug.Log("Found seal");
                 string key = "SealCollected_" + id + "_";
 
                 string sealType = PlayerPrefs.GetString(key + "Type_", "Grey");
@@ -142,6 +143,7 @@ public class Sanc_GameManager : MonoBehaviour
 
     public void UpdateRescueNo()
     {
+        //Debug.Log("Updating rescue no");
         releasedSeals++;
         releasedSealText.text = "Seals released: " + releasedSeals.ToString() + "/" + releasedSealsEndTarget.ToString();
         SaveRescueNo();
@@ -187,12 +189,12 @@ public class Sanc_GameManager : MonoBehaviour
     public void SpawnEnrichPrefab()
     {
         if (!feedEnrichManager.enrichObjActive) { Instantiate(enrichmentMGPrefab, canvas); }
-        else { Debug.LogWarning("Enrich obj already active"); }
+        //else { Debug.LogWarning("Enrich obj already active"); }
     }
 
     public void SwitchPools(bool toGreyPool)
     {
-        Debug.Log("run switchpools");
+        //Debug.Log("run switchpools");
         if (toGreyPool)
         {
             // set to grey pool button inactive
@@ -227,9 +229,9 @@ public class Sanc_GameManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("TrashComplete_") == 1)
         {
-            Debug.Log("TrashComplete_ == 1");
+            //Debug.Log("TrashComplete_ == 1");
             return true;
         }
-        else { Debug.Log("TrashComplete) != 1"); return false; }
+        else { /*Debug.Log("TrashComplete) != 1");*/ return false; }
     }
 }

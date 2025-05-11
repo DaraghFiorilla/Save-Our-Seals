@@ -78,10 +78,10 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     public void ReleaseSeal()
     {
+        gameManager.UpdateRescueNo();
         if (gameManager.seals.Contains(this)) { gameManager.seals.Remove(this); }
         PlayerPrefs.SetInt("SealCollected_" + myID + "_Released_", 1);
         PlayerPrefs.Save();
-        gameManager.UpdateRescueNo();
         gameObject.SetActive(false);
     }
 
@@ -108,6 +108,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     {
         if (gameManager.TrashComplete()) { adjustAmount += 10; }
         health += adjustAmount;
+        if (health > 100) { health = 100; }
         if (selected)
         {
             gameManager.healthDisplay.text = health + "%";
@@ -120,6 +121,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     {
         if (gameManager.TrashComplete()) { adjustAmount += 10; }
         hunger += adjustAmount;
+        if (hunger > 100) { hunger = 100; }
         if (selected)
         {
             gameManager.hungerDisplay.text = hunger + "%";
@@ -129,8 +131,9 @@ public class Seal_SancBehaviour : MonoBehaviour
     public void AdjustEnrichment(int adjustAmount)
     {
         if (gameManager.TrashComplete()) { adjustAmount += 10; }
-        Debug.Log("AdjustEnrichment run with adjust amount = " + adjustAmount);
+        //Debug.Log("AdjustEnrichment run with adjust amount = " + adjustAmount);
         enrichment += adjustAmount;
+        if (enrichment > 100) { enrichment = 100; }
         if (selected)
         {
             gameManager.enrichDisplay.text = enrichment + "%";
@@ -142,11 +145,11 @@ public class Seal_SancBehaviour : MonoBehaviour
     {
         animationInactive = false;
         animator.SetTrigger("eat");
-        Debug.Log("Feeding cooldown coroutine started with cooldown time: " + eatCooldownTime + happyTime);
+        //Debug.Log("Feeding cooldown coroutine started with cooldown time: " + eatCooldownTime + happyTime);
         canEnrich = false;
         canFeed = false;
         feedCooldownSlider.maxValue = eatCooldownTime + happyTime;
-        Debug.Log("Eat cooldown time = " + eatCooldownTime);
+        //Debug.Log("Eat cooldown time = " + eatCooldownTime);
         while (eatCooldownTime > 0)
         {
             eatCooldownTime -= Time.deltaTime;
@@ -154,7 +157,7 @@ public class Seal_SancBehaviour : MonoBehaviour
             yield return null;
         }
         animator.SetTrigger("finishedEat");
-        Debug.Log("Happy time = " + happyTime);
+        //Debug.Log("Happy time = " + happyTime);
         while (happyTime > 0)
         {
             happyTime -= Time.deltaTime;
@@ -166,7 +169,7 @@ public class Seal_SancBehaviour : MonoBehaviour
         AdjustHunger(adjustAmount);
         animationInactive = true;
         SaveAsCollected();
-        Debug.Log("Feeding cooldown coroutine finished");
+        //Debug.Log("Feeding cooldown coroutine finished");
         yield return null;
     }
 
@@ -174,12 +177,12 @@ public class Seal_SancBehaviour : MonoBehaviour
     public IEnumerator EnrichmentCoroutine(float enrichCooldownTime, float happyTime, int adjustAmount)
     {
         animationInactive = false;
-        Debug.Log("Enrich cooldown coroutine started with adjust amount: " + adjustAmount);
+        //Debug.Log("Enrich cooldown coroutine started with adjust amount: " + adjustAmount);
         animator.SetTrigger("eat");
         canFeed = false;
         canEnrich = false;
         enrichmentCooldownSlider.maxValue = enrichCooldownTime + happyTime;
-        Debug.Log("Enrich cooldown time = " + enrichCooldownTime);
+        //Debug.Log("Enrich cooldown time = " + enrichCooldownTime);
         while (enrichCooldownTime > 0)
         {
             enrichCooldownTime -= Time.deltaTime;
@@ -187,7 +190,7 @@ public class Seal_SancBehaviour : MonoBehaviour
             yield return null;
         }
         animator.SetTrigger("finishedEat");
-        Debug.Log("Happy time = " + happyTime);
+        //Debug.Log("Happy time = " + happyTime);
         while (happyTime > 0)
         {
             happyTime -= Time.deltaTime;
@@ -199,19 +202,20 @@ public class Seal_SancBehaviour : MonoBehaviour
         AdjustEnrichment(adjustAmount);
         animationInactive = true;
         SaveAsCollected();
-        Debug.Log("Enrich cooldown coroutine finished");
+        //Debug.Log("Enrich cooldown coroutine finished");
         yield return null;
     }
 
     public void Tick()
     {
         myTickCounter++;
-        if ((float)myTickCounter % 15 == 0)
+        if ((float)myTickCounter % 5 == 0)
         {
             if (hunger > 30 && enrichment > 30)
             {
-                if ((hunger + enrichment) / 2 > 60) { AdjustHealth(15); }
-                else if (hunger + enrichment / 2 > 80) { AdjustHealth(25); }
+                //Debug.Log("Sum of health increase = " + ((float)hunger + (float)enrichment) /2);
+                if (((float)hunger + (float)enrichment) / 2 > 80) { AdjustHealth(20); /*Debug.Log("Adjusting helf by 20");*/ }
+                else if ((float)hunger + enrichment / 2 > 60) { AdjustHealth(15); /*Debug.Log("Adjusting helf by 15");*/ }
                 else { AdjustHealth(10); }
             }
         }
