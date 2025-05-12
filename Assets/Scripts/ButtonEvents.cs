@@ -8,7 +8,7 @@ public class ButtonEvents : MonoBehaviour
     public void OutOfFuel(GameObject objToDisable)
     {
         objToDisable.SetActive(false);
-        SwitchScene(0);
+        SwitchScene(1);
     }
 
     public void SwitchScene(int index)

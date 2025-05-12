@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTimeBetweenMoves: 9
   minTimeBetweenMoves: 5
-  speed: 3
+  speed: 2.5
   moving: 0
   sprites:
   - {fileID: 21300000, guid: 55ab4c6f161e5cb4cb27497b6b4a18a7, type: 3}
@@ -122,7 +122,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
+  m_Mass: 3
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
