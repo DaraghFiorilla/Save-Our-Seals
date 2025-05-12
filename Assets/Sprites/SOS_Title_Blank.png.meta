@@ -434,7 +434,20 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SOS_Title_Blank_0: 3424415083154337572
+      SOS_Title_Blank_1: 3004741239150922835
+      SOS_Title_Blank_10: 6532289071270768924
+      SOS_Title_Blank_11: 2367405317158533249
+      SOS_Title_Blank_12: 689936308801603669
+      SOS_Title_Blank_2: 5848428181541824480
+      SOS_Title_Blank_3: 1449622960699325322
+      SOS_Title_Blank_4: -8469296595099940399
+      SOS_Title_Blank_5: 4826993816629987036
+      SOS_Title_Blank_6: 8103960581009205543
+      SOS_Title_Blank_7: -2151018448949873227
+      SOS_Title_Blank_8: -7558294204184536467
+      SOS_Title_Blank_9: -6153285576397951888
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

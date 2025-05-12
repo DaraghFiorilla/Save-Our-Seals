@@ -35,7 +35,7 @@ public class EnrichmentMinigame : MonoBehaviour
     private void SetStartingPos()
     {
         // Calculate boundaries
-        float widthAndHeight = 256; // hardcoded because for some reason this code stopped working ->//iceCubePrefab.GetComponent<RectTransform>().rect.width;
+        float widthAndHeight = 512; // hardcoded because for some reason this code stopped working ->//iceCubePrefab.GetComponent<RectTransform>().rect.width;
         float minX = corners[0].x + widthAndHeight / 2;
         float maxX = corners[2].x - widthAndHeight / 2;
         float minY = corners[0].y + widthAndHeight / 2;

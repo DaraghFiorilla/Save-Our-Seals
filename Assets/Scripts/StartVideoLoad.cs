@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
 
-public class VideoPlayer : MonoBehaviour
+public class StartVideoLoad : MonoBehaviour
 {
     [SerializeField] float timer;
     [SerializeField] GameObject rawImage;

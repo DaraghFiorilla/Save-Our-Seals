@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 3
   feedAmount: 10
-  maxVelocity: 2000
+  maxVelocity: 3000
   gravity: {x: 0, y: -800}
 --- !u!114 &9031920350605166284
 MonoBehaviour:
