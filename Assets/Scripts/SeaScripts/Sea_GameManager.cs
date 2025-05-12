@@ -11,6 +11,7 @@ public class Sea_GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI sealText;
     [SerializeField] private TextMeshProUGUI trashText;
     [SerializeField] private GameObject popupObj;
+    public AudioClip[] audioClips;
 
     private void Start()
     {

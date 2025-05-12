@@ -102,6 +102,9 @@ public class BoatMovement : MonoBehaviour
         if (collision.tag == "Trash")
         {
             Debug.Log("Entered trash trigger");
+            boatFuel += 5;
+            fuelText.text = boatFuel.ToString("F1") + "%";
+            fuelSlider.value = boatFuel;
             collision.GetComponent<TrashScript>().BoatTriggered();
         }
     }

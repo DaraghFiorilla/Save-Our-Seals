@@ -21,6 +21,7 @@ public class Sanc_GameManager : MonoBehaviour
     [SerializeField] private GameObject[] poolButtons;
     [SerializeField] private TextMeshProUGUI releasedSealText;
     [SerializeField] private GameObject gameEndPrefab;
+    public AudioClip[] audioFiles;
 
     [Header("Seal references")]
     public Seal_SancBehaviour selectedSeal;

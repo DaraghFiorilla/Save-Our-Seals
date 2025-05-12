@@ -15,7 +15,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
     [Header("Identification")]
     [Tooltip("ID must be unique to avoid sanc seal ID conflicts. ID needs to be below 100 for this")]
     public int myID;
-    public int age;
+    //public int age;
     public string sealType;
 
     private Rigidbody2D rb;
@@ -23,6 +23,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
     private Sea_MinigameManager minigameManager;
     public Sprite[] sprites = new Sprite[2];
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         ResetMoveTime();
         moving = false;
@@ -85,6 +87,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
         spriteRenderer.flipX = false;
         ResetMoveTime();
         moving = false;
+        audioSource.PlayOneShot(gameManager.audioClips[Random.Range(0, gameManager.audioClips.Length - 1)]);
         yield return null;
     }
 
@@ -106,7 +109,7 @@ public class Seal_SeaBehaviour : MonoBehaviour
     {
         PlayerPrefs.SetInt(GetSealKey(), 1); // collected flag
         PlayerPrefs.SetString(GetSealKey("Type_"), sealType); // seal type string
-        PlayerPrefs.SetInt(GetSealKey("Age_"), age); // age int
+        //PlayerPrefs.SetInt(GetSealKey("Age_"), age); // age int
         PlayerPrefs.Save();
         //Debug.Log($"Saving as collected on obj {gameObject.name}");
         //Debug.Log($"Set key {GetSealKey("Type")} to value {sealType}");

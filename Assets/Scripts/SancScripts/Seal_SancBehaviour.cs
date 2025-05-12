@@ -8,8 +8,11 @@ public class Seal_SancBehaviour : MonoBehaviour
     [Header("Animation Variables")]
     public float minTimeBetweenAnim;
     public float maxTimeBetweenAnim;
+    public float minTimeBetweenAudioPlay, maxTimeBetweenAudioPlay;
     public float currentTimeBetweenAnim;
-    [HideInInspector] public float timer;
+    public float currentTimeBetweenAudio;
+    public float animTimer;
+    public float audioTimer;
     [HideInInspector] public bool animationInactive;
     public Sprite fullSprite;
     public GameObject selectionOutline;
@@ -30,16 +33,20 @@ public class Seal_SancBehaviour : MonoBehaviour
     private Animator animator;
     private Sanc_GameManager gameManager;
     [SerializeField] private GameObject releaseSealPrefab;
+    private AudioSource audioSource;
+    private AudioClip audioClip;
 
     private void Awake()
     {
         //Debug.Log("My ID = " + myID);
         animator = GetComponent<Animator>();
         gameManager = FindFirstObjectByType<Sanc_GameManager>();
+        audioSource = GetComponent<AudioSource>();
         animationInactive = true;
         feedCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/HungerSlider").GetComponent<Slider>();
         enrichmentCooldownSlider = GameObject.Find("/Canvas/UI/SlidersParent/EnrichmentSlider").GetComponent<Slider>();
         ResetAnimTimer();
+        ResetAudioTimer();
     }
 
     private void Start()
@@ -75,11 +82,16 @@ public class Seal_SancBehaviour : MonoBehaviour
     {
         if (animationInactive) 
         { 
-            timer += Time.deltaTime;
-            if (timer >= currentTimeBetweenAnim)
+            animTimer += Time.deltaTime;
+            audioTimer += Time.deltaTime;
+            if (animTimer >= currentTimeBetweenAnim)
             {
                 ResetAnimTimer();
                 animator.SetTrigger("playIdle");
+            }
+            if (audioTimer >= currentTimeBetweenAudio)
+            {
+                ResetAudioTimer();
             }
         }
     }
@@ -108,8 +120,16 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     private void ResetAnimTimer()
     {
-        timer = 0;
+        animTimer = 0;
         currentTimeBetweenAnim = Random.Range(minTimeBetweenAnim, maxTimeBetweenAnim);
+    }
+
+    private void ResetAudioTimer()
+    {
+        audioClip = gameManager.audioFiles[Random.Range(0, gameManager.audioFiles.Length - 1)];
+        audioSource.PlayOneShot(audioClip);
+        audioTimer = 0;
+        currentTimeBetweenAudio = Random.Range(minTimeBetweenAudioPlay, maxTimeBetweenAudioPlay);
     }
 
     public void AdjustHealth(int adjustAmount)
@@ -217,7 +237,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     public void Tick()
     {
         myTickCounter++;
-        if ((float)myTickCounter % 1 == 0)
+        if ((float)myTickCounter % 15 == 0)
         {
             if (hunger > 30 && enrichment > 30)
             {
