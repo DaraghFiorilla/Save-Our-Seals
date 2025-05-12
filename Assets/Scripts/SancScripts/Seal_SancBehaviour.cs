@@ -25,7 +25,7 @@ public class Seal_SancBehaviour : MonoBehaviour
     public int myID;
     public float feedingCooldown, enrichCooldown;
     public bool canFeed, canEnrich;
-    public string sealName;
+    public string myName;
 
     private Animator animator;
     private Sanc_GameManager gameManager;
@@ -44,17 +44,18 @@ public class Seal_SancBehaviour : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(gameObject.name + " MYID = " + myID);
+        //Debug.Log(gameObject.name + " MYID = " + myID);
         string key = "SealCollected_" + myID + "_";
         if (!PlayerPrefs.HasKey(key)) { SaveAsCollected(); }
-        Debug.Log(key + "Released_");
+        //Debug.Log(key + "Released_");
         if (PlayerPrefs.GetInt(key + "Released_") == 1)
         { // SealCollected_0_Released_
-            Debug.Log("Loaded seal was marked as released");
+            //Debug.Log("Loaded seal was marked as released");
             if (gameManager.seals.Contains(this)) { gameManager.seals.Remove(this); }
             gameObject.SetActive(false);
         }
-        else Debug.Log("Loaded seal wasn't marked as released");
+        //else Debug.Log("Loaded seal wasn't marked as released");
+        myName = gameManager.names[myID];
     }
 
     public void SaveAsCollected()

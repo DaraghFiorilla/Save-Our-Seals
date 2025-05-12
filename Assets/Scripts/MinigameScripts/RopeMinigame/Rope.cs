@@ -10,6 +10,7 @@ public class Rope : MonoBehaviour
 
     //private BoxCollider2D col;
     private Image image;
+    [SerializeField] private RopeMinigame minigameManager;
 
     private void Awake()
     {
@@ -29,8 +30,8 @@ public class Rope : MonoBehaviour
 
     public void ChangeSprite(bool cut)
     {
-        if (cut) { image.color = Color.red; }
-        else { image.color = Color.white; }
+        if (cut) { image.sprite = minigameManager.ropeSprites[1]; }
+        else { image.sprite = minigameManager.ropeSprites[0]; }
     }
 
     public void ResetRope()

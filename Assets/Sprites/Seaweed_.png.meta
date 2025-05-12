@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 14f72404ccba9ed4cbcfb250f856ced8
+guid: e7ec43df28ab2a1489f4a46faddbcb10
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4553710967854459356
-    second: Rope_Knot_0
+      213: -4944058293282518266
+    second: Seaweed__0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rope_Knot_0
+      name: Seaweed__0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 3
-        width: 26
-        height: 26
+        x: 14
+        y: 22
+        width: 37
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cd9e3c8aff7023f30800000000000000
-      internalID: 4553710967854459356
+      spriteID: 60b42105d2d236bb0800000000000000
+      internalID: -4944058293282518266
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rope_Knot_0: 4553710967854459356
+      Seaweed__0: -4944058293282518266
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

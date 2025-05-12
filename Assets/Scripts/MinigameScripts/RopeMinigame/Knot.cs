@@ -20,17 +20,17 @@ public class Knot : MonoBehaviour
         {
             case KnotType.Knot:
                 {
-                    myImage.color = Color.gray;
+                    myImage.color = Color.white;
                     break;
                 }
             case KnotType.KnotFrayed:
                 {
-                    myImage.color = Color.red;
+                    myImage.color = Color.green;
                     break;
                 }
             case KnotType.KnotTight:
                 {
-                    myImage.color = Color.black;
+                    myImage.color = Color.red;
                     break;
                 }
             default:

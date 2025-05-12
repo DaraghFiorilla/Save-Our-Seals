@@ -14,6 +14,7 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     private EventSystem ev;
     public float mass;
     public int feedAmount;
+    public float maxVelocity;
 
     public Vector2 gravity = new Vector2(0, -800f);
 
@@ -45,6 +46,12 @@ public class FishThrow : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
         float dt = Mathf.Max(Time.time - dragStartTime, 0.0f);
         Vector2 initialVelocity = (releaseLocal - dragStartPos) / dt;
+
+        if (initialVelocity.magnitude > maxVelocity)
+        {
+            initialVelocity = initialVelocity.normalized * maxVelocity;
+        }
+
         StartCoroutine(AnimateThrow(dragStartPos, initialVelocity));
     }
 

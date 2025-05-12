@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEditor;
+//using UnityEditor;
 
 public class Sanc_GameManager : MonoBehaviour
 {
@@ -28,6 +28,7 @@ public class Sanc_GameManager : MonoBehaviour
     public int noOfEachSealType = 6;
     public int releasedSeals;
     public int releasedSealsEndTarget;
+    public string[] names = new string[12];
 
     private Transform canvas;
     GraphicRaycaster m_Raycaster;
@@ -130,8 +131,8 @@ public class Sanc_GameManager : MonoBehaviour
                 selectedSeal.selected = true;
                 sealDisplayParent.GetChild(0).gameObject.SetActive(true);
                 sealDisplayParent.GetChild(0).GetComponent<Image>().sprite = selectedSeal.fullSprite;
-                sealDisplayParent.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Name: " + selectedSeal.sealName;
-                sealDisplayParent.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Type: " + selectedSeal.sealType[0].ToString();
+                sealDisplayParent.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = selectedSeal.myName;
+                sealDisplayParent.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Type: " + selectedSeal.sealType;
                 healthDisplay.text = selectedSeal.health.ToString() + "%";
                 hungerDisplay.text = selectedSeal.hunger.ToString() + "%";
                 enrichDisplay.text = selectedSeal.enrichment.ToString() + "%";
@@ -146,9 +147,9 @@ public class Sanc_GameManager : MonoBehaviour
         releasedSeals++;
         releasedSealText.text = "Seals released: " + releasedSeals.ToString() + "/" + releasedSealsEndTarget.ToString();
         SaveRescueNo();
-        if (PlayerPrefs.GetInt("GameComplete_") == 1)
+        if (releasedSeals >= releasedSealsEndTarget)
         {
-            Instantiate(gameEndPrefab);
+            Instantiate(gameEndPrefab, canvas);
         }
     }
 
@@ -217,7 +218,7 @@ public class Sanc_GameManager : MonoBehaviour
         {
             seal.SaveAsCollected();
         }
-        EditorApplication.ExitPlaymode();
+        //EditorApplication.ExitPlaymode();
         Application.Quit();
     }
 

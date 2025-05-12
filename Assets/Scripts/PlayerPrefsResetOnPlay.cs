@@ -1,5 +1,5 @@
-using UnityEngine;
-using UnityEditor;
+//using UnityEngine;
+/*using UnityEditor;
 
 [InitializeOnLoad]
 public class PlayerPrefsResetOnPlay
@@ -18,4 +18,4 @@ public class PlayerPrefsResetOnPlay
             Debug.Log("PlayerPrefs have been reset for Play Mode");
         }
     }
-}
+}*/

@@ -16,6 +16,7 @@ public class RopeMinigame : MonoBehaviour
     private bool gameOver;
     private Sea_MinigameManager manager;
     private GraphicRaycaster graphicRaycaster;
+    public Sprite[] ropeSprites;
 
     private void Awake()
     {
